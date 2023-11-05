@@ -62,10 +62,8 @@ class _MyHomePageState extends State<MyHomePage> {
     );
 
     if (response.statusCode == 200) {
-      // Successfully logged in, display a success message.
-      setState(() {
-        loginStatus = response.body;
-      });
+      usernameController.clear();
+      passwordController.clear();
 
       // You may want to navigate to the dashboard page here.
       Navigator.of(context).push(MaterialPageRoute(
@@ -74,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       // Login failed, display an error message.
       setState(() {
-        loginStatus = response.body;
+        loginStatus = loginErrors(response.body);
       });
     }
   }
@@ -83,6 +81,18 @@ class _MyHomePageState extends State<MyHomePage> {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => Register(),
     ));
+  }
+
+  String loginErrors(status) {
+    String res = '';
+
+    if (status == '{"error":"Incorrect email"}') {
+      res = 'Email and password do not match!';
+    }
+    if (status == '{"error":"Incorrect password"}') {
+      res = 'Password does not match!';
+    }
+    return res;
   }
 
   @override
@@ -97,7 +107,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-              'Username:',
+              'Username/Email:',
               style: TextStyle(fontSize: 18),
             ),
             Container(
@@ -105,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: TextField(
                 controller: usernameController,
                 decoration: InputDecoration(
-                  hintText: 'Enter your username',
+                  hintText: 'Enter your email',
                   filled: true,
                   fillColor: Colors.grey,
                   border: OutlineInputBorder(
@@ -118,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.purple), // Border color when focused
+                    borderSide: BorderSide(color: Colors.deepPurple), // Border color when focused
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
@@ -149,7 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.purple), // Border color when focused
+                    borderSide: BorderSide(color: Colors.deepPurple), // Border color when focused
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
@@ -176,6 +186,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
+            GestureDetector(
+              onTap: _transitionRegister,
+              child: Text(
+                'Forgot Password?',
+                style: TextStyle(
+                  color: Colors.blue, // Customize the text color
+                  decoration: TextDecoration.underline, // Add underline effect
+                ),
+              ),
+            ),
+
             Text(
               loginStatus,
               style: TextStyle(
@@ -227,14 +248,15 @@ class _RegisterState extends State<Register> {
 
     if (response.statusCode == 200) {
       setState(() {
-        registerStatus = 'Registration successful';
+        usernameController.clear();
+        passwordController.clear();
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => MyApp(),
         ));
       });
     } else {
       setState(() {
-        registerStatus = 'Registration failed';
+        registerStatus = registerErrors(response.body);
       });
     }
   }
@@ -242,6 +264,18 @@ class _RegisterState extends State<Register> {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => MyApp(),
     ));
+  }
+
+  String registerErrors(status) {
+    String res = '';
+
+    if (status == '{"error":"This email already in use"}') {
+      res = 'An account has already been created with this Email!';
+    }
+    if (status == '{"error":"Email not valid"}') {
+      res = 'Not a valid Email!';
+    }
+    return res;
   }
 
   @override
@@ -255,7 +289,7 @@ class _RegisterState extends State<Register> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-                'Username:',
+                'Username/Email:',
                 style: TextStyle(fontSize: 18),
             ),
             Container(
@@ -263,7 +297,7 @@ class _RegisterState extends State<Register> {
               child: TextField(
                 controller: usernameController,
                 decoration: InputDecoration(
-                  hintText: 'Enter your username',
+                  hintText: 'Enter Email Here',
                   filled: true,
                   fillColor: Colors.grey,
                   border: OutlineInputBorder(
@@ -276,7 +310,7 @@ class _RegisterState extends State<Register> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.purple), // Border color when focused
+                    borderSide: BorderSide(color: Colors.deepPurple), // Border color when focused
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
@@ -294,7 +328,7 @@ class _RegisterState extends State<Register> {
                 controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
-                  hintText: 'Enter your password',
+                  hintText: 'Enter Password Here',
                   filled: true,            // Set to true to fill the background with a color
                   fillColor: Colors.grey,  // Background color
                   border: OutlineInputBorder(
@@ -307,7 +341,7 @@ class _RegisterState extends State<Register> {
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.purple), // Border color when focused
+                    borderSide: BorderSide(color: Colors.deepPurple), // Border color when focused
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
@@ -347,6 +381,7 @@ class _RegisterState extends State<Register> {
   }
 }
 
+// Dashboard
 class DashBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -355,7 +390,12 @@ class DashBoard extends StatelessWidget {
         title: Text('Dashboard'),
       ),
       body: Center(
-        child: Text('Welcome to CodeKids!'),
+        child: Column(
+          children: <Widget>[
+            Text('Testing'),
+            Text('Welcome to CodeKids!'),
+          ]
+        )
       ),
     );
   }
