@@ -98,22 +98,61 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             const Text(
               'Username:',
+              style: TextStyle(fontSize: 18),
             ),
-            TextField(
-              controller: usernameController,
-              decoration: InputDecoration(
-                hintText: 'Enter your username',
+            Container(
+              width: 300, // Set the desired width
+              child: TextField(
+                controller: usernameController,
+                decoration: InputDecoration(
+                  hintText: 'Enter your username',
+                  filled: true,
+                  fillColor: Colors.grey,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  contentPadding: EdgeInsets.all(10), // Padding inside the box
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.purple), // Border color when focused
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
               ),
+
             ),
             const SizedBox(height: 16),
             const Text(
               'Password:',
+              style: TextStyle(fontSize: 18),
             ),
-            TextField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                hintText: 'Enter your password',
+            Container(
+              width: 300,
+              child: TextField(
+                controller: passwordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  hintText: 'Enter your password',
+                  filled: true,            // Set to true to fill the background with a color
+                  fillColor: Colors.grey,  // Background color
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  contentPadding: EdgeInsets.all(10), // Padding inside the box
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.purple), // Border color when focused
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -146,20 +185,6 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       )
-    );
-  }
-}
-
-class DashBoard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Dashboard'),
-      ),
-      body: Center(
-        child: Text('Welcome to CodeKids!'),
-      ),
     );
   }
 }
@@ -229,20 +254,63 @@ class _RegisterState extends State<Register> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text('Username:'),
-            TextField(
-              controller: usernameController,
-              decoration: InputDecoration(
-                hintText: 'Enter your username',
+            const Text(
+                'Username:',
+                style: TextStyle(fontSize: 18),
+            ),
+            Container(
+              width: 300, // Set the desired width
+              child: TextField(
+                controller: usernameController,
+                decoration: InputDecoration(
+                  hintText: 'Enter your username',
+                  filled: true,
+                  fillColor: Colors.grey,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  contentPadding: EdgeInsets.all(10), // Padding inside the box
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.purple), // Border color when focused
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
               ),
+
             ),
             const SizedBox(height: 16),
-            const Text('Password:'),
-            TextField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: InputDecoration(
-                hintText: 'Enter your password',
+            const Text(
+                'Password:',
+                style: TextStyle(fontSize: 18),
+            ),
+            Container(
+              width: 300,
+              child: TextField(
+                controller: passwordController,
+                obscureText: true,
+                decoration: InputDecoration(
+                  hintText: 'Enter your password',
+                  filled: true,            // Set to true to fill the background with a color
+                  fillColor: Colors.grey,  // Background color
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  contentPadding: EdgeInsets.all(10), // Padding inside the box
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.purple), // Border color when focused
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
               ),
             ),
             const SizedBox(height: 16),
@@ -278,6 +346,22 @@ class _RegisterState extends State<Register> {
     );
   }
 }
+
+class DashBoard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Dashboard'),
+      ),
+      body: Center(
+        child: Text('Welcome to CodeKids!'),
+      ),
+    );
+  }
+}
+
+
 
 
 
