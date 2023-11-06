@@ -289,7 +289,7 @@ class _RegisterState extends State<Register> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-                'Username/Email:',
+                'Username/Email: P',
                 style: TextStyle(fontSize: 18),
             ),
             Container(
