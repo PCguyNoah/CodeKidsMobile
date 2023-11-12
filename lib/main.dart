@@ -386,15 +386,64 @@ class DashBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text('Dashboard'),
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Text('Testing'),
-            Text('Welcome to CodeKids!'),
+      body:SingleChildScrollView(
+        child: Center(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text('printf("Welcome to CodeKids");',
+                style: TextStyle(fontSize: 35), textAlign: TextAlign.center,),
+                Text('Module 1:',
+                  style: TextStyle(fontSize: 25),),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(300, 80),
+                  ),
+                    onPressed: (){},
+                    child: Text('Variables and Data Types',
+                style: TextStyle(fontSize: 20.0),)),
+                Text('Module 2:',
+                  style: TextStyle(fontSize: 25),),
+                ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(300, 80),
+                ),
+                onPressed: (){},
+                child: Text('Loops',
+                  style: TextStyle(fontSize: 20.0),)),
+                Text('Module 3:',
+                  style: TextStyle(fontSize: 25),),
+                ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(300, 80),
+                ),
+                onPressed: (){},
+                child: Text('Conditionals',
+                  style: TextStyle(fontSize: 20.0),)),
+                Text('Module 4:',
+                  style: TextStyle(fontSize: 25),),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(300, 80),
+                    ),
+                    onPressed: (){},
+                    child: Text('Functions & Procedures',
+                      style: TextStyle(fontSize: 20.0),)),
+                Text('Module 5:',
+                  style: TextStyle(fontSize: 25),),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(300, 80),
+                    ),
+                    onPressed: (){},
+                    child: Text('Input & Output',
+                      style: TextStyle(fontSize: 20.0),)),
           ]
+        )
         )
       ),
     );
