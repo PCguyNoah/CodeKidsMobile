@@ -39,7 +39,7 @@ class _ModuleOnePageState extends State<ModuleOnePage> {
               Navigator.of(context).push(
                   MaterialPageRoute(
                       builder: (BuildContext context){
-                        return const ModuleOnePage();
+                        return const ModuleOneLearn();
                       })
               );
             },
@@ -55,7 +55,7 @@ class _ModuleOnePageState extends State<ModuleOnePage> {
               Navigator.of(context).push(
                   MaterialPageRoute(
                       builder: (BuildContext context){
-                        return const ModuleOnePage();
+                        return const ModuleOnePractice();
                       })
               );
             },
@@ -71,7 +71,7 @@ class _ModuleOnePageState extends State<ModuleOnePage> {
               Navigator.of(context).push(
                   MaterialPageRoute(
                       builder: (BuildContext context){
-                        return const ModuleOnePage();
+                        return const ModuleOneTest();
                       })
               );
             },
@@ -79,6 +79,78 @@ class _ModuleOnePageState extends State<ModuleOnePage> {
               style: TextStyle(fontSize: 20.0),)),
         ]
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ModuleOneLearn extends StatefulWidget{
+  const ModuleOneLearn({Key? key}) : super(key: key);
+
+  @override
+  State<ModuleOneLearn> createState() => _ModuleOneLearnState();
+}
+
+class _ModuleOneLearnState extends State<ModuleOneLearn> {
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Module 1: Learn'),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: (){
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
+      ),
+    );
+  }
+}
+
+class ModuleOnePractice extends StatefulWidget{
+  const ModuleOnePractice({Key? key}) : super(key: key);
+
+  @override
+  State<ModuleOnePractice> createState() => _ModuleOnePracticeState();
+}
+
+class _ModuleOnePracticeState extends State<ModuleOnePractice> {
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Module 1: Practice'),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: (){
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
+      ),
+    );
+  }
+}
+
+class ModuleOneTest extends StatefulWidget{
+  const ModuleOneTest({Key? key}) : super(key: key);
+
+  @override
+  State<ModuleOneTest> createState() => _ModuleOneTestState();
+}
+
+class _ModuleOneTestState extends State<ModuleOneTest> {
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Module 1: Test'),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: (){
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
     );

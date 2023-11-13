@@ -39,7 +39,7 @@ class _ModuleThreePageState extends State<ModuleThreePage> {
                       Navigator.of(context).push(
                           MaterialPageRoute(
                               builder: (BuildContext context){
-                                return const ModuleThreePage();
+                                return const ModuleThreeLearn();
                               })
                       );
                     },
@@ -55,7 +55,7 @@ class _ModuleThreePageState extends State<ModuleThreePage> {
                       Navigator.of(context).push(
                           MaterialPageRoute(
                               builder: (BuildContext context){
-                                return const ModuleThreePage();
+                                return const ModuleThreePractice();
                               })
                       );
                     },
@@ -71,7 +71,7 @@ class _ModuleThreePageState extends State<ModuleThreePage> {
                       Navigator.of(context).push(
                           MaterialPageRoute(
                               builder: (BuildContext context){
-                                return const ModuleThreePage();
+                                return const ModuleThreeTest();
                               })
                       );
                     },
@@ -79,6 +79,78 @@ class _ModuleThreePageState extends State<ModuleThreePage> {
                       style: TextStyle(fontSize: 20.0),)),
               ]
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ModuleThreeLearn extends StatefulWidget{
+  const ModuleThreeLearn({Key? key}) : super(key: key);
+
+  @override
+  State<ModuleThreeLearn> createState() => _ModuleThreeLearnState();
+}
+
+class _ModuleThreeLearnState extends State<ModuleThreeLearn> {
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Module 3: Learn'),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: (){
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
+      ),
+    );
+  }
+}
+
+class ModuleThreePractice extends StatefulWidget{
+  const ModuleThreePractice({Key? key}) : super(key: key);
+
+  @override
+  State<ModuleThreePractice> createState() => _ModuleThreePracticeState();
+}
+
+class _ModuleThreePracticeState extends State<ModuleThreePractice> {
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Module 3: Practice'),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: (){
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
+      ),
+    );
+  }
+}
+
+class ModuleThreeTest extends StatefulWidget{
+  const ModuleThreeTest({Key? key}) : super(key: key);
+
+  @override
+  State<ModuleThreeTest> createState() => _ModuleThreeTestState();
+}
+
+class _ModuleThreeTestState extends State<ModuleThreeTest> {
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Module 3: Test'),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: (){
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
     );

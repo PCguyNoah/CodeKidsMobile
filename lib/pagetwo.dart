@@ -39,7 +39,7 @@ class _ModuleTwoPageState extends State<ModuleTwoPage> {
                       Navigator.of(context).push(
                           MaterialPageRoute(
                               builder: (BuildContext context){
-                                return const ModuleTwoPage();
+                                return const ModuleTwoLearn();
                               })
                       );
                     },
@@ -55,7 +55,7 @@ class _ModuleTwoPageState extends State<ModuleTwoPage> {
                       Navigator.of(context).push(
                           MaterialPageRoute(
                               builder: (BuildContext context){
-                                return const ModuleTwoPage();
+                                return const ModuleTwoPractice();
                               })
                       );
                     },
@@ -71,7 +71,7 @@ class _ModuleTwoPageState extends State<ModuleTwoPage> {
                       Navigator.of(context).push(
                           MaterialPageRoute(
                               builder: (BuildContext context){
-                                return const ModuleTwoPage();
+                                return const ModuleTwoTest();
                               })
                       );
                     },
@@ -79,6 +79,78 @@ class _ModuleTwoPageState extends State<ModuleTwoPage> {
                       style: TextStyle(fontSize: 20.0),)),
               ]
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ModuleTwoLearn extends StatefulWidget{
+  const ModuleTwoLearn({Key? key}) : super(key: key);
+
+  @override
+  State<ModuleTwoLearn> createState() => _ModuleTwoLearnState();
+}
+
+class _ModuleTwoLearnState extends State<ModuleTwoLearn> {
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Module 2: Learn'),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: (){
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
+      ),
+    );
+  }
+}
+
+class ModuleTwoPractice extends StatefulWidget{
+  const ModuleTwoPractice({Key? key}) : super(key: key);
+
+  @override
+  State<ModuleTwoPractice> createState() => _ModuleTwoPracticeState();
+}
+
+class _ModuleTwoPracticeState extends State<ModuleTwoPractice> {
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Module 2: Practice'),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: (){
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+        ),
+      ),
+    );
+  }
+}
+
+class ModuleTwoTest extends StatefulWidget{
+  const ModuleTwoTest({Key? key}) : super(key: key);
+
+  @override
+  State<ModuleTwoTest> createState() => _ModuleTwoTestState();
+}
+
+class _ModuleTwoTestState extends State<ModuleTwoTest> {
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Module 2: Test'),
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          onPressed: (){
+            Navigator.of(context).pop();
+          },
+          icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
     );
