@@ -1,3 +1,8 @@
+import 'package:codekids_m/pagefive.dart';
+import 'package:codekids_m/pagefour.dart';
+import 'package:codekids_m/pageone.dart';
+import 'package:codekids_m/pagethree.dart';
+import 'package:codekids_m/pagetwo.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -386,15 +391,98 @@ class DashBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
         title: Text('Dashboard'),
       ),
-      body: Center(
-        child: Column(
-          children: <Widget>[
-            Text('Testing'),
-            Text('Welcome to CodeKids!'),
+      body:SingleChildScrollView(
+        child: Center(
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+
+              children: <Widget>[
+                Text('printf("Welcome to CodeKids");',
+                style: TextStyle(fontSize: 35), textAlign: TextAlign.center,),
+                Text('Module 1:',
+                  style: TextStyle(fontSize: 25),),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: Size(300, 80),
+                  ),
+                    onPressed: (){
+                    Navigator.of(context).push(
+                      MaterialPageRoute(
+                          builder: (BuildContext context){
+                            return const ModuleOnePage();
+                          })
+                    );
+                    },
+                    child: Text('Variables and Data Types',
+                style: TextStyle(fontSize: 20.0),)),
+                Text('Module 2:',
+                  style: TextStyle(fontSize: 25),),
+                ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(300, 80),
+                ),
+                    onPressed: (){
+                      Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (BuildContext context){
+                                return const ModuleTwoPage();
+                              })
+                      );
+                    },
+                child: Text('Loops',
+                  style: TextStyle(fontSize: 20.0),)),
+                Text('Module 3:',
+                  style: TextStyle(fontSize: 25),),
+                ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(300, 80),
+                ),
+                    onPressed: (){
+                      Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (BuildContext context){
+                                return const ModuleThreePage();
+                              })
+                      );
+                    },
+                child: Text('Conditionals',
+                  style: TextStyle(fontSize: 20.0),)),
+                Text('Module 4:',
+                  style: TextStyle(fontSize: 25),),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(300, 80),
+                    ),
+                    onPressed: (){
+                      Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (BuildContext context){
+                                return const ModuleFourPage();
+                              })
+                      );
+                    },                    child: Text('Functions & Procedures',
+                      style: TextStyle(fontSize: 20.0),)),
+                Text('Module 5:',
+                  style: TextStyle(fontSize: 25),),
+                ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: Size(300, 80),
+                    ),
+                    onPressed: (){
+                      Navigator.of(context).push(
+                          MaterialPageRoute(
+                              builder: (BuildContext context){
+                                return const ModuleFivePage();
+                              })
+                      );
+                    },                    child: Text('Input & Output',
+                      style: TextStyle(fontSize: 20.0),)),
           ]
+        )
         )
       ),
     );
