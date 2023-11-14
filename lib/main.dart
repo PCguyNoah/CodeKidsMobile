@@ -221,12 +221,16 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   String registerStatus = '';
 
   @override
   void dispose() {
+    firstNameController.dispose();
+    lastNameController.dispose();
     usernameController.dispose();
     passwordController.dispose();
     super.dispose();
@@ -235,10 +239,14 @@ class _RegisterState extends State<Register> {
   Future<void> _register() async {
     final String apiUrl = 'https://codekidz-5a5dbee745fa.herokuapp.com/api/user/signup';
 
+    final String firstName = firstNameController.text;
+    final String lastName = lastNameController.text;
     final String email = usernameController.text;
     final String password = passwordController.text;
 
     final Map<String, String> data = {
+      'firstName': firstName,
+      'lastName': lastName,
       'email': email,
       'password': password,
     };
@@ -294,11 +302,69 @@ class _RegisterState extends State<Register> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             const Text(
-                'Username/Email: P',
-                style: TextStyle(fontSize: 18),
+              'First Name:',
+              style: TextStyle(fontSize: 18),
             ),
             Container(
-              width: 300, // Set the desired width
+              width: 300,
+              child: TextField(
+                controller: firstNameController,
+                decoration: InputDecoration(
+                  hintText: 'Enter First Name',
+                  filled: true,
+                  fillColor: Colors.grey,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  contentPadding: EdgeInsets.all(10),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.deepPurple),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Last Name:',
+              style: TextStyle(fontSize: 18),
+            ),
+            Container(
+              width: 300,
+              child: TextField(
+                controller: lastNameController,
+                decoration: InputDecoration(
+                  hintText: 'Enter Last Name',
+                  filled: true,
+                  fillColor: Colors.grey,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(color: Colors.grey),
+                  ),
+                  contentPadding: EdgeInsets.all(10),
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.grey),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.deepPurple),
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 16),
+            const Text(
+              'Username/Email: ',
+              style: TextStyle(fontSize: 18),
+            ),
+            Container(
+              width: 300,
               child: TextField(
                 controller: usernameController,
                 decoration: InputDecoration(
@@ -309,23 +375,22 @@ class _RegisterState extends State<Register> {
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: BorderSide(color: Colors.grey),
                   ),
-                  contentPadding: EdgeInsets.all(10), // Padding inside the box
+                  contentPadding: EdgeInsets.all(10),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.deepPurple), // Border color when focused
+                    borderSide: BorderSide(color: Colors.deepPurple),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
               ),
-
             ),
             const SizedBox(height: 16),
             const Text(
-                'Password:',
-                style: TextStyle(fontSize: 18),
+              'Password:',
+              style: TextStyle(fontSize: 18),
             ),
             Container(
               width: 300,
@@ -334,19 +399,19 @@ class _RegisterState extends State<Register> {
                 obscureText: true,
                 decoration: InputDecoration(
                   hintText: 'Enter Password Here',
-                  filled: true,            // Set to true to fill the background with a color
-                  fillColor: Colors.grey,  // Background color
+                  filled: true,
+                  fillColor: Colors.grey,
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(10.0),
                     borderSide: BorderSide(color: Colors.grey),
                   ),
-                  contentPadding: EdgeInsets.all(10), // Padding inside the box
+                  contentPadding: EdgeInsets.all(10),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.grey),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.deepPurple), // Border color when focused
+                    borderSide: BorderSide(color: Colors.deepPurple),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                 ),
@@ -360,7 +425,7 @@ class _RegisterState extends State<Register> {
             Text(
               "Already have an account?",
               style: TextStyle(
-                color: Colors.black, // Customize the text color
+                color: Colors.black,
               ),
             ),
             GestureDetector(
@@ -368,8 +433,8 @@ class _RegisterState extends State<Register> {
               child: Text(
                 'Login Here',
                 style: TextStyle(
-                  color: Colors.blue, // Customize the text color
-                  decoration: TextDecoration.underline, // Add underline effect
+                  color: Colors.blue,
+                  decoration: TextDecoration.underline,
                 ),
               ),
             ),
@@ -387,6 +452,10 @@ class _RegisterState extends State<Register> {
 }
 
 // Dashboard
+
+
+
+
 class DashBoard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
