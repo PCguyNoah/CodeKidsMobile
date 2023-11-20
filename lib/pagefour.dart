@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class ModuleFourPage extends StatefulWidget {
   const ModuleFourPage({Key? key}) : super(key: key);
@@ -163,6 +165,40 @@ class _ModuleFourTestState extends State<ModuleFourTest> {
     );
   }
 }
+
+class Question {
+  final String questionText;
+  final String correctAnswer;
+  final List<String> options;
+  final String module;
+  final int position;
+
+  Question({
+    required this.questionText,
+    required this.correctAnswer,
+    required this.options,
+    required this.module,
+    required this.position,
+  });
+
+  factory Question.fromJson(Map<String, dynamic> json) {
+    List<String> options = [
+      json['answer'],
+      json['answerChoice1'],
+      json['answerChoice2'],
+      json['answerChoice3']
+    ]..shuffle(); // Shuffle the options
+
+    return Question(
+      questionText: json['question'],
+      correctAnswer: json['answer'],
+      options: options,
+      module: json['module'].toString(),
+      position: json['position'] as int,
+    );
+  }
+}
+
 class QuestionList extends StatefulWidget {
   final String moduleName;
   final bool isPractice;
@@ -175,38 +211,62 @@ class QuestionList extends StatefulWidget {
 
 class _QuestionListState extends State<QuestionList> {
   int currentQuestion = 1;
+  List<Question> questions = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchQuestions();
+  }
+
+  _fetchQuestions() async {
+    final String apiUrl = 'https://codekidz-5a5dbee745fa.herokuapp.com/api/question/get/module/${widget.moduleName}';
+
+    try {
+      final response = await http.get(Uri.parse(apiUrl));
+
+      if (response.statusCode == 200) {
+        var jsonResponse = json.decode(response.body) as List;
+        setState(() {
+          questions = jsonResponse.map((q) => Question.fromJson(q)).toList();
+          isLoading = false;
+        });
+      } else {
+        // Handle error
+        print('Failed to load questions. Status code: ${response.statusCode}');
+      }
+    } catch (e) {
+      // Handle exception
+      print('Error fetching questions: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return Center(child: CircularProgressIndicator());
+    } else if (questions.isEmpty) {
+      return Center(child: Text('No questions available.'));
+    }
+
     return SingleChildScrollView(
       child: Column(
         children: [
-          QuestionCard(
-            moduleName: widget.moduleName,
-            questionNumber: currentQuestion,
-            isPractice: widget.isPractice,
-          ),
+          QuestionCard(question: questions[currentQuestion - 1]),
           SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ElevatedButton(
                 onPressed: currentQuestion > 1
-                    ? () {
-                  setState(() {
-                    currentQuestion--;
-                  });
-                }
+                    ? () => setState(() => currentQuestion--)
                     : null,
                 child: Text('Previous'),
               ),
               ElevatedButton(
-                onPressed: currentQuestion < 10
-                    ? () {
-                  setState(() {
-                    currentQuestion++;
-                  });
-                }
+                onPressed: currentQuestion < questions.length
+                    ? () => setState(() => currentQuestion++)
                     : null,
                 child: Text('Next'),
               ),
@@ -219,15 +279,9 @@ class _QuestionListState extends State<QuestionList> {
 }
 
 class QuestionCard extends StatelessWidget {
-  final String moduleName;
-  final int questionNumber;
-  final bool isPractice;
+  final Question question;
 
-  QuestionCard({
-    required this.moduleName,
-    required this.questionNumber,
-    required this.isPractice,
-  });
+  QuestionCard({required this.question});
 
   @override
   Widget build(BuildContext context) {
@@ -238,22 +292,12 @@ class QuestionCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Question $questionNumber:'),
-            Text('What is the correct answer?'),
+            Text(
+              'Question: ${question.questionText}',
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
             SizedBox(height: 8),
-            AnswerOption(option: 'Option A'),
-            AnswerOption(option: 'Option B'),
-            AnswerOption(option: 'Option C'),
-            AnswerOption(option: 'Option D'),
-            SizedBox(height: 8),
-            isPractice
-                ? ElevatedButton(
-              onPressed: () {
-                // Handle the answer for practice
-              },
-              child: Text('Submit Answer'),
-            )
-                : Container(),
+            ...question.options.map((option) => AnswerOption(option: option, correctAnswer: question.correctAnswer)).toList(),
           ],
         ),
       ),
@@ -261,20 +305,35 @@ class QuestionCard extends StatelessWidget {
   }
 }
 
-class AnswerOption extends StatelessWidget {
+class AnswerOption extends StatefulWidget {
   final String option;
+  final String correctAnswer;
 
-  AnswerOption({required this.option});
+  const AnswerOption({Key? key, required this.option, required this.correctAnswer}) : super(key: key);
+
+  @override
+  _AnswerOptionState createState() => _AnswerOptionState();
+}
+
+class _AnswerOptionState extends State<AnswerOption> {
+  String? selectedOption;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Radio(value: option, groupValue: null, onChanged: null),
-        Text(option),
-      ],
+    return ListTile(
+      title: Text(widget.option),
+      leading: Radio<String>(
+        value: widget.option,
+        groupValue: selectedOption,
+        onChanged: (String? value) {
+          setState(() {
+            selectedOption = value;
+          });
+        },
+      ),
     );
   }
 }
+
 
 
