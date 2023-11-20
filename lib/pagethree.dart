@@ -169,6 +169,7 @@ class Question {
   final List<String> options;
   final String module;
   final int position;
+  final String hint;
 
   Question({
     required this.questionText,
@@ -176,6 +177,7 @@ class Question {
     required this.options,
     required this.module,
     required this.position,
+    required this.hint,
   });
 
   factory Question.fromJson(Map<String, dynamic> json) {
@@ -192,6 +194,7 @@ class Question {
       options: options,
       module: json['module'].toString(),
       position: json['position'] as int,
+      hint: json['hint'] ?? 'This is a dummy hint.', // Dummy hint for testing
     );
   }
 }
@@ -316,6 +319,26 @@ class _QuestionCardState extends State<QuestionCard> {
     ));
   }
 
+  void _showHint() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Hint'),
+          content: Text(widget.question.hint),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -339,6 +362,11 @@ class _QuestionCardState extends State<QuestionCard> {
             ElevatedButton(
               onPressed: _submitAnswer,
               child: Text("Submit Answer"),
+            ),
+            SizedBox(height: 8),
+            ElevatedButton(
+              onPressed: _showHint,
+              child: Text("Hint"),
             ),
           ],
         ),
