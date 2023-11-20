@@ -21,7 +21,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple),
       ),
+
       home: const MyHomePage(title: 'CodeKids'),
+
     );
   }
 }
@@ -462,101 +464,143 @@ class DashBoard extends StatelessWidget {
     return Scaffold(
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        title: Text('Dashboard'),
+        centerTitle: true,
+        title: Text('CodeKids'),
       ),
-      body:SingleChildScrollView(
+      body: SingleChildScrollView(
         child: Center(
           child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-
-              children: <Widget>[
-                Text('printf("Welcome to CodeKids");',
-                style: TextStyle(fontSize: 35), textAlign: TextAlign.center,),
-                Text('Module 1:',
-                  style: TextStyle(fontSize: 25),),
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: Size(300, 80),
-                  ),
-                    onPressed: (){
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                          builder: (BuildContext context){
-                            return const ModuleOnePage();
-                          })
-                    );
-                    },
-                    child: Text('Variables and Data Types',
-                style: TextStyle(fontSize: 20.0),)),
-                Text('Module 2:',
-                  style: TextStyle(fontSize: 25),),
-                ElevatedButton(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              SizedBox(height: 20),
+              Text(
+                'printf("Welcome");',
+                style: TextStyle(fontSize: 33),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 16),
+              Text(
+                'module 1:',
+                style: TextStyle(fontSize: 25),
+              ),
+              SizedBox(height: 3),
+              ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(300, 80),
+                  minimumSize: Size(350, 70),
                 ),
-                    onPressed: (){
-                      Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (BuildContext context){
-                                return const ModuleTwoPage();
-                              })
-                      );
-                    },
-                child: Text('Loops',
-                  style: TextStyle(fontSize: 20.0),)),
-                Text('Module 3:',
-                  style: TextStyle(fontSize: 25),),
-                ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return const ModuleOnePage();
+                        }),
+                  );
+                },
+                child: Text(
+                  'Variables and Data Types',
+                  style: TextStyle(fontSize: 25.0),
+                ),
+              ),
+              SizedBox(height: 16), // Add spacing
+              Text(
+                'module 2:',
+                style: TextStyle(fontSize: 25),
+              ),
+              SizedBox(height: 3),
+              ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  minimumSize: Size(300, 80),
+                  minimumSize: Size(350, 70),
                 ),
-                    onPressed: (){
-                      Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (BuildContext context){
-                                return const ModuleThreePage();
-                              })
-                      );
-                    },
-                child: Text('Conditionals',
-                  style: TextStyle(fontSize: 20.0),)),
-                Text('Module 4:',
-                  style: TextStyle(fontSize: 25),),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(300, 80),
-                    ),
-                    onPressed: (){
-                      Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (BuildContext context){
-                                return const ModuleFourPage();
-                              })
-                      );
-                    },                    child: Text('Functions & Procedures',
-                      style: TextStyle(fontSize: 20.0),)),
-                Text('Module 5:',
-                  style: TextStyle(fontSize: 25),),
-                ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(300, 80),
-                    ),
-                    onPressed: (){
-                      Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (BuildContext context){
-                                return const ModuleFivePage();
-                              })
-                      );
-                    },                    child: Text('Input & Output',
-                      style: TextStyle(fontSize: 20.0),)),
-          ]
-        )
-        )
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return const ModuleTwoPage();
+                        }),
+                  );
+                },
+                child: Text(
+                  'Loops',
+                  style: TextStyle(fontSize: 25.0),
+                ),
+              ),
+              SizedBox(height: 16), // Add spacing
+              Text(
+                'module 3:',
+                style: TextStyle(fontSize: 25),
+              ),
+              SizedBox(height: 3),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(350, 70),
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return const ModuleThreePage();
+                        }),
+                  );
+                },
+                child: Text(
+                  'Conditionals',
+                  style: TextStyle(fontSize: 25.0),
+                ),
+              ),
+              SizedBox(height: 16), // Add spacing
+              Text(
+                'module 4:',
+                style: TextStyle(fontSize: 25),
+              ),
+              SizedBox(height: 3),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(350, 70),
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return const ModuleFourPage();
+                        }),
+                  );
+                },
+                child: Text(
+                  'Functions & Procedures',
+                  style: TextStyle(fontSize: 25.0),
+                ),
+              ),
+              SizedBox(height: 16), // Add spacing
+              Text(
+                'module 5:',
+                style: TextStyle(fontSize: 25),
+              ),
+              SizedBox(height: 3),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(350, 70),
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return const ModuleFivePage();
+                        }),
+                  );
+                },
+                child: Text(
+                  'Input & Output',
+                  style: TextStyle(fontSize: 25.0),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
+
 
 
 
