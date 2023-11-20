@@ -235,7 +235,16 @@ class _QuestionListState extends State<QuestionList> {
       print('Error fetching questions: $e');
     }
   }
+  int correctAnswers = 0;
+  int incorrectAnswers = 0;
 
+  void _updateAnswerCount(bool isCorrect) {
+    if (isCorrect) {
+      correctAnswers++;
+    } else {
+      incorrectAnswers++;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -247,7 +256,10 @@ class _QuestionListState extends State<QuestionList> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          QuestionCard(question: questions[currentQuestion - 1]),
+          QuestionCard(
+            question: questions[currentQuestion - 1],
+            onAnswerSelected: _updateAnswerCount,
+          ),
           SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -272,10 +284,34 @@ class _QuestionListState extends State<QuestionList> {
   }
 }
 
-class QuestionCard extends StatelessWidget {
+class QuestionCard extends StatefulWidget {
   final Question question;
+  final Function(bool) onAnswerSelected;
 
-  QuestionCard({required this.question});
+  QuestionCard({required this.question, required this.onAnswerSelected});
+
+  @override
+  _QuestionCardState createState() => _QuestionCardState();
+}
+
+class _QuestionCardState extends State<QuestionCard> {
+  String? selectedOption;
+
+  void _updateSelectedOption(String option) {
+    setState(() {
+      selectedOption = option;
+    });
+  }
+
+  void _submitAnswer() {
+    bool isCorrect = selectedOption == widget.question.correctAnswer;
+    widget.onAnswerSelected(isCorrect);
+
+    // You can navigate to next question or show a message here
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(isCorrect ? "Correct!" : "Wrong answer"),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -287,11 +323,20 @@ class QuestionCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Question: ${question.questionText}',
+              'Question: ${widget.question.questionText}',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 8),
-            ...question.options.map((option) => AnswerOption(option: option, correctAnswer: question.correctAnswer)).toList(),
+            ...widget.question.options.map((option) => AnswerOption(
+              option: option,
+              selectedOption: selectedOption,
+              onSelection: _updateSelectedOption,
+            )).toList(),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _submitAnswer,
+              child: Text("Submit Answer"),
+            ),
           ],
         ),
       ),
@@ -299,32 +344,31 @@ class QuestionCard extends StatelessWidget {
   }
 }
 
-class AnswerOption extends StatefulWidget {
+class AnswerOption extends StatelessWidget {
   final String option;
-  final String correctAnswer;
+  final String? selectedOption;
+  final Function(String) onSelection;
 
-  const AnswerOption({Key? key, required this.option, required this.correctAnswer}) : super(key: key);
-
-  @override
-  _AnswerOptionState createState() => _AnswerOptionState();
-}
-
-class _AnswerOptionState extends State<AnswerOption> {
-  String? selectedOption;
+  const AnswerOption({
+    Key? key,
+    required this.option,
+    this.selectedOption,
+    required this.onSelection,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      title: Text(widget.option),
+      title: Text(option),
       leading: Radio<String>(
-        value: widget.option,
+        value: option,
         groupValue: selectedOption,
         onChanged: (String? value) {
-          setState(() {
-            selectedOption = value;
-          });
+          onSelection(value!);
         },
       ),
     );
   }
 }
+
+
