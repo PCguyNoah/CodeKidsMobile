@@ -12,7 +12,8 @@ class _ModuleTwoPageState extends State<ModuleTwoPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Module 2'),
+        title: const Text('Codekids'),
+        centerTitle: true,
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: (){
@@ -27,10 +28,14 @@ class _ModuleTwoPageState extends State<ModuleTwoPage> {
               mainAxisAlignment: MainAxisAlignment.center,
 
               children: <Widget>[
-                Text('printf("Welcome to Module 2");',
+                SizedBox(height: 30),
+                Text('printf("Loops");',
                   style: TextStyle(fontSize: 35), textAlign: TextAlign.center,),
-                Text('Learn',
+                SizedBox(height: 20),  SizedBox(height: 20),
+
+                Text('1',
                   style: TextStyle(fontSize: 25),),
+                SizedBox(height: 20),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(350, 70),
@@ -45,8 +50,10 @@ class _ModuleTwoPageState extends State<ModuleTwoPage> {
                     },
                     child: Text('Learn',
                       style: TextStyle(fontSize: 20.0),)),
-                Text('Practice:',
+                SizedBox(height: 20),
+                Text('2',
                   style: TextStyle(fontSize: 25),),
+                SizedBox(height: 20),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(350, 70),
@@ -61,8 +68,10 @@ class _ModuleTwoPageState extends State<ModuleTwoPage> {
                     },
                     child: Text('Practice',
                       style: TextStyle(fontSize: 20.0),)),
-                Text('Test',
+                SizedBox(height: 20),
+                Text('3',
                   style: TextStyle(fontSize: 25),),
+                SizedBox(height: 20),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(350, 70),

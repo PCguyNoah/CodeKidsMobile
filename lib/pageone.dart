@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 class ModuleOnePage extends StatefulWidget {
   const ModuleOnePage({Key? key}) : super(key: key);
 
@@ -12,7 +13,8 @@ class _ModuleOnePageState extends State<ModuleOnePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Module 1'),
+        title: const Text('CodeKids'),
+        centerTitle: true,
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: (){
@@ -27,10 +29,10 @@ class _ModuleOnePageState extends State<ModuleOnePage> {
           mainAxisAlignment: MainAxisAlignment.center,
 
           children: <Widget>[
-          Text('printf("Welcome to Module 1");',
+            SizedBox(height: 30),
+          Text('printf("Variables and Data Types");',
           style: TextStyle(fontSize: 35), textAlign: TextAlign.center,),
-        Text('Learn',
-          style: TextStyle(fontSize: 25),),
+            SizedBox(height: 46),
         ElevatedButton(
             style: ElevatedButton.styleFrom(
               minimumSize: Size(350, 70),
@@ -45,8 +47,8 @@ class _ModuleOnePageState extends State<ModuleOnePage> {
             },
             child: Text('Learn',
               style: TextStyle(fontSize: 20.0),)),
-        Text('Practice:',
-          style: TextStyle(fontSize: 25),),
+            SizedBox(height: 20),
+            SizedBox(height: 20),
         ElevatedButton(
             style: ElevatedButton.styleFrom(
               minimumSize: Size(350, 70),
@@ -61,8 +63,8 @@ class _ModuleOnePageState extends State<ModuleOnePage> {
             },
             child: Text('Practice',
               style: TextStyle(fontSize: 20.0),)),
-        Text('Test',
-          style: TextStyle(fontSize: 25),),
+            SizedBox(height: 20),
+            SizedBox(height: 20),
         ElevatedButton(
             style: ElevatedButton.styleFrom(
               minimumSize: Size(350, 70),
@@ -164,6 +166,8 @@ class Question {
   Question({required this.questionText, required this.options, required this.correctAnswer});
 }
 
+
+
 class QuestionList extends StatefulWidget {
   final String moduleName;
   final bool isPractice;
@@ -174,41 +178,58 @@ class QuestionList extends StatefulWidget {
   _QuestionListState createState() => _QuestionListState();
 }
 
+
 class _QuestionListState extends State<QuestionList> {
   int currentQuestion = 1;
+  List<dynamic> questions = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchQuestions();
+  }
+
+  _fetchQuestions() async {
+    try {
+      final response = await http.get(Uri.parse('https://codekidz-5a5dbee745fa.herokuapp.com/api/question/get')); // Corrected endpoint
+
+      if (response.statusCode == 200) {
+        setState(() {
+          questions = json.decode(response.body).where((q) => q['module'] == widget.moduleName).toList();
+          isLoading = false;
+        });
+      } else {
+        print('Failed to load questions. Status code: ${response.statusCode}');
+        // Handle error
+      }
+    } catch (e) {
+      print('Error fetching questions: $e');
+      // Handle exception
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (isLoading) {
+      return Center(child: CircularProgressIndicator());
+    }
+
     return SingleChildScrollView(
       child: Column(
         children: [
-          QuestionCard(
-            moduleName: widget.moduleName,
-            questionNumber: currentQuestion,
-            isPractice: widget.isPractice,
-          ),
+          if (questions.isNotEmpty)
+            QuestionCard(question: questions[currentQuestion - 1]),
           SizedBox(height: 16),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ElevatedButton(
-                onPressed: currentQuestion > 1
-                    ? () {
-                  setState(() {
-                    currentQuestion--;
-                  });
-                }
-                    : null,
+                onPressed: currentQuestion > 1 ? () => setState(() => currentQuestion--) : null,
                 child: Text('Previous'),
               ),
               ElevatedButton(
-                onPressed: currentQuestion < 10
-                    ? () {
-                  setState(() {
-                    currentQuestion++;
-                  });
-                }
-                    : null,
+                onPressed: currentQuestion < questions.length ? () => setState(() => currentQuestion++) : null,
                 child: Text('Next'),
               ),
             ],
@@ -220,15 +241,9 @@ class _QuestionListState extends State<QuestionList> {
 }
 
 class QuestionCard extends StatelessWidget {
-  final String moduleName;
-  final int questionNumber;
-  final bool isPractice;
+  final dynamic question;
 
-  QuestionCard({
-    required this.moduleName,
-    required this.questionNumber,
-    required this.isPractice,
-  });
+  QuestionCard({required this.question});
 
   @override
   Widget build(BuildContext context) {
@@ -239,22 +254,9 @@ class QuestionCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Question $questionNumber:'),
-            Text('What is the correct answer?'),
-            SizedBox(height: 8),
-            AnswerOption(option: 'Option A'),
-            AnswerOption(option: 'Option B'),
-            AnswerOption(option: 'Option C'),
-            AnswerOption(option: 'Option D'),
-            SizedBox(height: 8),
-            isPractice
-                ? ElevatedButton(
-              onPressed: () {
-                // Handle the answer for practice
-              },
-              child: Text('Submit Answer'),
-            )
-                : Container(),
+            Text('Question: ${question['question']}'),
+            ...(question['options'] as List).map((option) => AnswerOption(option: option)).toList(),
+            // Add logic for handling practice and submitting answers if required
           ],
         ),
       ),
@@ -277,5 +279,3 @@ class AnswerOption extends StatelessWidget {
     );
   }
 }
-
-

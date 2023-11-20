@@ -12,7 +12,8 @@ class _ModuleThreePageState extends State<ModuleThreePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Module 3'),
+        title: const Text('CodeKids'),
+        centerTitle: true,
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: (){
@@ -27,10 +28,11 @@ class _ModuleThreePageState extends State<ModuleThreePage> {
               mainAxisAlignment: MainAxisAlignment.center,
 
               children: <Widget>[
-                Text('printf("Welcome to Module 3");',
+                SizedBox(height: 30),
+                Text('printf("Conditionals");',
                   style: TextStyle(fontSize: 35), textAlign: TextAlign.center,),
-                Text('Learn',
-                  style: TextStyle(fontSize: 25),),
+                SizedBox(height: 46),
+                SizedBox(height: 20),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(350, 70),
@@ -45,8 +47,8 @@ class _ModuleThreePageState extends State<ModuleThreePage> {
                     },
                     child: Text('Learn',
                       style: TextStyle(fontSize: 20.0),)),
-                Text('Practice:',
-                  style: TextStyle(fontSize: 25),),
+                SizedBox(height: 20),
+                SizedBox(height: 20),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(350, 70),
@@ -61,8 +63,9 @@ class _ModuleThreePageState extends State<ModuleThreePage> {
                     },
                     child: Text('Practice',
                       style: TextStyle(fontSize: 20.0),)),
-                Text('Test',
-                  style: TextStyle(fontSize: 25),),
+
+                SizedBox(height: 20),
+                SizedBox(height: 20),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(350, 70),

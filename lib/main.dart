@@ -21,7 +21,9 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple),
       ),
+
       home: const MyHomePage(title: 'CodeKids'),
+
     );
   }
 }

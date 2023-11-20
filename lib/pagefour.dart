@@ -12,7 +12,8 @@ class _ModuleFourPageState extends State<ModuleFourPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Module 4'),
+        title: const Text('CodeKids'),
+        centerTitle: true,
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: (){
@@ -27,13 +28,12 @@ class _ModuleFourPageState extends State<ModuleFourPage> {
               mainAxisAlignment: MainAxisAlignment.center,
 
               children: <Widget>[
-                SizedBox(height: 26),
-                Text('printf("Welcome");',
+                SizedBox(height: 30),
+                Text('printf("Functions & Procedures");',
                   style: TextStyle(fontSize: 35), textAlign: TextAlign.center,),
-                SizedBox(height: 26),
-                Text('get();',
-                  style: TextStyle(fontSize: 25),),
-                SizedBox(height: 5),
+                SizedBox(height: 46),
+
+                SizedBox(height: 20),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(350, 70),
@@ -48,10 +48,9 @@ class _ModuleFourPageState extends State<ModuleFourPage> {
                     },
                     child: Text('Learn',
                       style: TextStyle(fontSize: 25.0),)),
-                SizedBox(height: 16),
-                Text('while(i <10);',
-                  style: TextStyle(fontSize: 25),),
-                SizedBox(height: 6),
+                SizedBox(height: 20),
+
+                SizedBox(height: 20),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(350, 70),
@@ -66,10 +65,9 @@ class _ModuleFourPageState extends State<ModuleFourPage> {
                     },
                     child: Text('Practice',
                       style: TextStyle(fontSize: 25.0),)),
-                SizedBox(height: 16),
-                Text('run(10)',
-                  style: TextStyle(fontSize: 25),),
-                SizedBox(height: 6),
+                SizedBox(height: 20),
+
+                SizedBox(height: 20),
                 ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       minimumSize: Size(350, 70),
