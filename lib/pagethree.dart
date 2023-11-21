@@ -133,7 +133,7 @@ class _ModuleThreePracticeState extends State<ModuleThreePractice> {
           icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
-      body: QuestionList(moduleName: '2', isPractice: true), // Fetch questions for module 2
+      body: QuestionList(moduleName: '3', isPractice: true), // Fetch questions for module 2
     );
   }
 }
@@ -158,7 +158,7 @@ class _ModuleThreeTestState extends State<ModuleThreeTest> {
           icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
-      body: QuestionList(moduleName: '2', isPractice: false), // Fetch questions for module 2
+      body: QuestionList(moduleName: '3', isPractice: false), // Fetch questions for module 2
     );
   }
 }
@@ -265,6 +265,7 @@ class _QuestionListState extends State<QuestionList> {
           QuestionCard(
             question: questions[currentQuestion - 1],
             onAnswerSelected: _updateAnswerCount,
+            isPractice: widget.isPractice,
           ),
           SizedBox(height: 16),
           Row(
@@ -293,8 +294,13 @@ class _QuestionListState extends State<QuestionList> {
 class QuestionCard extends StatefulWidget {
   final Question question;
   final Function(bool) onAnswerSelected;
+  final bool isPractice;
 
-  QuestionCard({required this.question, required this.onAnswerSelected});
+  QuestionCard({
+    required this.question,
+    required this.onAnswerSelected,
+    required this.isPractice,
+  });
 
   @override
   _QuestionCardState createState() => _QuestionCardState();
@@ -313,30 +319,33 @@ class _QuestionCardState extends State<QuestionCard> {
     bool isCorrect = selectedOption == widget.question.correctAnswer;
     widget.onAnswerSelected(isCorrect);
 
-    // You can navigate to next question or show a message here
+    // You can navigate to the next question or show a message here
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(isCorrect ? "Correct!" : "Wrong answer"),
     ));
   }
 
   void _showHint() {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Hint'),
-          content: Text(widget.question.hint),
-          actions: <Widget>[
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('Close'),
-            ),
-          ],
-        );
-      },
-    );
+    if (widget.isPractice) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Hint'),
+            content: Text(widget.question.hint),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Close'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+    // No action is taken for test sessions
   }
 
   @override
@@ -364,10 +373,11 @@ class _QuestionCardState extends State<QuestionCard> {
               child: Text("Submit Answer"),
             ),
             SizedBox(height: 8),
-            ElevatedButton(
-              onPressed: _showHint,
-              child: Text("Hint"),
-            ),
+            if (widget.isPractice)  // Conditionally show the "Hint" button for practice sessions
+              ElevatedButton(
+                onPressed: _showHint,
+                child: Text("Hint"),
+              ),
           ],
         ),
       ),
