@@ -225,8 +225,15 @@ class _QuestionListState extends State<QuestionList> {
 
       if (response.statusCode == 200) {
         var jsonResponse = json.decode(response.body) as List;
+        List<Question> fetchedQuestions = jsonResponse.map((q) => Question.fromJson(q)).toList();
+
+        if (!widget.isPractice) { // Only shuffle for tests, not for practice
+          fetchedQuestions.shuffle();
+          print("Questions shuffled"); // Debugging line
+        }
+
         setState(() {
-          questions = jsonResponse.map((q) => Question.fromJson(q)).toList();
+          questions = fetchedQuestions;
           isLoading = false;
         });
       } else {
@@ -238,6 +245,8 @@ class _QuestionListState extends State<QuestionList> {
       print('Error fetching questions: $e');
     }
   }
+
+
   int correctAnswers = 0;
   int incorrectAnswers = 0;
 
@@ -263,7 +272,8 @@ class _QuestionListState extends State<QuestionList> {
           QuestionCard(
             question: questions[currentQuestion - 1],
             onAnswerSelected: _updateAnswerCount,
-            isPractice: widget.isPractice, // Pass isPractice here
+            isPractice: widget.isPractice,
+            isLastQuestion: currentQuestion == questions.length,  // Add this line
           ),
           SizedBox(height: 16),
           Row(
@@ -293,11 +303,13 @@ class QuestionCard extends StatefulWidget {
   final Question question;
   final Function(bool) onAnswerSelected;
   final bool isPractice;
+  final bool isLastQuestion;  // Add this line
 
   QuestionCard({
     required this.question,
     required this.onAnswerSelected,
     required this.isPractice,
+    this.isLastQuestion = false,  // Add this line
   });
 
   @override
@@ -366,10 +378,11 @@ class _QuestionCardState extends State<QuestionCard> {
               onSelection: _updateSelectedOption,
             )).toList(),
             SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: _submitAnswer,
-              child: Text("Submit Answer"),
-            ),
+            if (!widget.isPractice && widget.isLastQuestion)
+              ElevatedButton(  // Remove the curly braces around this widget
+                onPressed: _submitAnswer,
+                child: Text("Submit Answer"),
+              ),
             SizedBox(height: 8),
             if (widget.isPractice)  // Conditionally show the "Hint" button for practice sessions
               ElevatedButton(
