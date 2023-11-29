@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'dart:convert';
 
 class ModuleTwoPage extends StatefulWidget {
@@ -94,19 +96,88 @@ class ModuleTwoLearn extends StatefulWidget{
 }
 
 class _ModuleTwoLearnState extends State<ModuleTwoLearn> {
+  late YoutubePlayerController _controller;
+  List<String> videoIds = [
+    'https://youtu.be/b4DPj0XAfSg?si=TX91gfahxIXupDr1',
+    'https://youtu.be/ufFAFx5Qn3w?si=qDLcK3O87QWYxzYk',
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = YoutubePlayerController(
+      initialVideoId: videoIds.first,
+      flags: const YoutubePlayerFlags(
+        autoPlay: true,
+        mute: false,
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Module 2: Learn'),
         automaticallyImplyLeading: false,
         leading: IconButton(
-          onPressed: (){
+          onPressed: () {
             Navigator.of(context).pop();
           },
           icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: videoIds.map((videoId) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0), // Add spacing between videos
+              child: Stack(
+                children: [
+                  YoutubePlayer(
+                    controller: YoutubePlayerController(
+                      initialVideoId: videoId,
+                      flags: const YoutubePlayerFlags(
+                        autoPlay: true,
+                        mute: false,
+                      ),
+                    ),
+                    aspectRatio: 16 / 9, // Set the aspect ratio as needed
+                  ),
+                  Positioned.fill(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }).toList(),
+        ),
+      ),
     );
+  }
+
+  void _playNextVideo() {
+    int currentIndex = videoIds.indexOf(_controller.metadata.videoId);
+
+    int nextIndex = (currentIndex + 1) % videoIds.length;
+    _playVideo(videoIds[nextIndex]);
+  }
+
+  void _playVideo(String videoId) {
+    _controller.load(videoId);
+    _controller.play();
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+    _controller.dispose();
+    super.dispose();
   }
 }
 

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'dart:convert';
 
 class ModuleThreePage extends StatefulWidget {
@@ -98,19 +100,75 @@ class ModuleThreeLearn extends StatefulWidget{
 }
 
 class _ModuleThreeLearnState extends State<ModuleThreeLearn> {
+  late YoutubePlayerController _controller;
+  List<String> videoIds = [
+    'https://youtu.be/xyQrVEFz9kw?si=UZPlcN1HnUWUZwYd',
+    ' https://youtu.be/tjd8fQw5HTA?si=G6jEaNLMnzVc1vz3',
+  ];
+  @override
+  void initState() {
+    super.initState();
+    _controller = YoutubePlayerController(
+      initialVideoId: videoIds.first,
+      flags: const YoutubePlayerFlags(
+        autoPlay: true,
+        mute: false,
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Module 3: Learn'),
         automaticallyImplyLeading: false,
         leading: IconButton(
-          onPressed: (){
+          onPressed: () {
             Navigator.of(context).pop();
           },
           icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: videoIds.map((videoId) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0), // Add spacing between videos
+              child: Stack(
+                children: [
+                  YoutubePlayer(
+                    controller: YoutubePlayerController(
+                      initialVideoId: videoId,
+                      flags: const YoutubePlayerFlags(
+                        autoPlay: true,
+                        mute: false,
+                      ),
+                    ),
+                    aspectRatio: 16 / 9, // Set the aspect ratio as needed
+                  ),
+                  Positioned.fill(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }).toList(),
+        ),
+      ),
     );
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+    _controller.dispose();
+    super.dispose();
   }
 }
 // Module Three - Practice

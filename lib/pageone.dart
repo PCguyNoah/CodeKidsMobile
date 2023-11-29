@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'dart:convert';
 
 class ModuleOnePage extends StatefulWidget {
@@ -88,7 +90,7 @@ class _ModuleOnePageState extends State<ModuleOnePage> {
   }
 }
 
-class ModuleOneLearn extends StatefulWidget{
+class ModuleOneLearn extends StatefulWidget {
   const ModuleOneLearn({Key? key}) : super(key: key);
 
   @override
@@ -96,19 +98,70 @@ class ModuleOneLearn extends StatefulWidget{
 }
 
 class _ModuleOneLearnState extends State<ModuleOneLearn> {
+
+  late YoutubePlayerController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = YoutubePlayerController(
+      initialVideoId: 'https://www.youtube.com/watch?v=OSyjOvFbAGI',
+      flags: const YoutubePlayerFlags(
+        autoPlay: true,
+        mute: false,
+      ),
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Module 1: Learn'),
         automaticallyImplyLeading: false,
         leading: IconButton(
-          onPressed: (){
+          onPressed: () {
             Navigator.of(context).pop();
           },
           icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
+      body: Center(
+        child: YoutubePlayerBuilder(
+          player: YoutubePlayer(
+            controller: _controller,
+            onReady: () {
+              SystemChrome.setPreferredOrientations([
+                DeviceOrientation.landscapeLeft,
+                DeviceOrientation.landscapeRight,
+              ]);
+            },
+            onEnded: (data) {
+              SystemChrome.setPreferredOrientations([
+                DeviceOrientation.portraitUp,
+              ]);
+            },
+          ),
+          builder: (context, player) {
+            return Align(
+              alignment: Alignment.center,
+              child: Container(
+                child: player,
+              ),
+            );
+          },
+        ),
+      ),
     );
+  }
+
+  @override
+  void dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+    ]);
+    _controller.dispose();
+    super.dispose();
   }
 }
 
