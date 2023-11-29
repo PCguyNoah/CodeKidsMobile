@@ -138,7 +138,7 @@ class _ModuleFivePracticeState extends State<ModuleFivePractice> {
           icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
-      body: QuestionList(moduleName: '2', isPractice: true), // Fetch questions for module 2
+      body: QuestionList(moduleName: '5', isPractice: true), // Fetch questions for module 2
     );
   }
 }
@@ -163,7 +163,7 @@ class _ModuleFiveTestState extends State<ModuleFiveTest> {
           icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
-      body: QuestionList(moduleName: '2', isPractice: false), // Fetch questions for module 2
+      body: QuestionList(moduleName: '5', isPractice: false),
     );
   }
 }
@@ -175,6 +175,7 @@ class Question {
   final List<String> options;
   final String module;
   final int position;
+  final String hint;
 
   Question({
     required this.questionText,
@@ -182,6 +183,7 @@ class Question {
     required this.options,
     required this.module,
     required this.position,
+    required this.hint,
   });
 
   factory Question.fromJson(Map<String, dynamic> json) {
@@ -198,6 +200,7 @@ class Question {
       options: options,
       module: json['module'].toString(),
       position: json['position'] as int,
+      hint: json['hint'] ?? 'This is a dummy hint.', // Dummy hint for testing
     );
   }
 }
@@ -268,6 +271,7 @@ class _QuestionListState extends State<QuestionList> {
           QuestionCard(
             question: questions[currentQuestion - 1],
             onAnswerSelected: _updateAnswerCount,
+            isPractice: widget.isPractice,
           ),
           SizedBox(height: 16),
           Row(
@@ -296,8 +300,13 @@ class _QuestionListState extends State<QuestionList> {
 class QuestionCard extends StatefulWidget {
   final Question question;
   final Function(bool) onAnswerSelected;
+  final bool isPractice;
 
-  QuestionCard({required this.question, required this.onAnswerSelected});
+  QuestionCard({
+    required this.question,
+    required this.onAnswerSelected,
+    required this.isPractice,
+  });
 
   @override
   _QuestionCardState createState() => _QuestionCardState();
@@ -316,10 +325,33 @@ class _QuestionCardState extends State<QuestionCard> {
     bool isCorrect = selectedOption == widget.question.correctAnswer;
     widget.onAnswerSelected(isCorrect);
 
-    // You can navigate to next question or show a message here
+    // You can navigate to the next question or show a message here
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(isCorrect ? "Correct!" : "Wrong answer"),
     ));
+  }
+
+  void _showHint() {
+    if (widget.isPractice) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Hint'),
+            content: Text(widget.question.hint),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Close'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+    // No action is taken for test sessions
   }
 
   @override
@@ -346,12 +378,19 @@ class _QuestionCardState extends State<QuestionCard> {
               onPressed: _submitAnswer,
               child: Text("Submit Answer"),
             ),
+            SizedBox(height: 8),
+            if (widget.isPractice)  // Conditionally show the "Hint" button for practice sessions
+              ElevatedButton(
+                onPressed: _showHint,
+                child: Text("Hint"),
+              ),
           ],
         ),
       ),
     );
   }
 }
+
 
 class AnswerOption extends StatelessWidget {
   final String option;

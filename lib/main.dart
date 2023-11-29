@@ -480,7 +480,7 @@ class DashBoard extends StatelessWidget {
               ),
               SizedBox(height: 16),
               Text(
-                'module 1:',
+                'Module 1:',
                 style: TextStyle(fontSize: 25),
               ),
               SizedBox(height: 3),
@@ -503,7 +503,7 @@ class DashBoard extends StatelessWidget {
               ),
               SizedBox(height: 16), // Add spacing
               Text(
-                'module 2:',
+                'Module 2:',
                 style: TextStyle(fontSize: 25),
               ),
               SizedBox(height: 3),
@@ -526,7 +526,7 @@ class DashBoard extends StatelessWidget {
               ),
               SizedBox(height: 16), // Add spacing
               Text(
-                'module 3:',
+                'Module 3:',
                 style: TextStyle(fontSize: 25),
               ),
               SizedBox(height: 3),
@@ -549,7 +549,7 @@ class DashBoard extends StatelessWidget {
               ),
               SizedBox(height: 16), // Add spacing
               Text(
-                'module 4:',
+                'Module 4:',
                 style: TextStyle(fontSize: 25),
               ),
               SizedBox(height: 3),
@@ -572,7 +572,7 @@ class DashBoard extends StatelessWidget {
               ),
               SizedBox(height: 16), // Add spacing
               Text(
-                'module 5:',
+                'Module 5:',
                 style: TextStyle(fontSize: 25),
               ),
               SizedBox(height: 3),
