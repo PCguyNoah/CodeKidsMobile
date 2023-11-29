@@ -155,7 +155,7 @@ class _ModuleOneTestState extends State<ModuleOneTest> {
           icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
-      body: QuestionList(moduleName: '1', isPractice: false), // Specify test mode here
+      body: QuestionList(moduleName: '1', isPractice: false), // Fetch questions for module 1
     );
   }
 }
@@ -207,8 +207,6 @@ class _QuestionListState extends State<QuestionList> {
   int currentQuestion = 1;
   List<Question> questions = [];
   bool isLoading = true;
-  int correctAnswers = 0;
-  int incorrectAnswers = 0;
 
   @override
   void initState() {
@@ -226,29 +224,27 @@ class _QuestionListState extends State<QuestionList> {
         var jsonResponse = json.decode(response.body) as List;
         setState(() {
           questions = jsonResponse.map((q) => Question.fromJson(q)).toList();
-          if (!widget.isPractice) {
-            questions.shuffle();  // Shuffle questions for test mode
-          }
           isLoading = false;
         });
       } else {
+        // Handle error
         print('Failed to load questions. Status code: ${response.statusCode}');
       }
     } catch (e) {
+      // Handle exception
       print('Error fetching questions: $e');
     }
   }
+  int correctAnswers = 0;
+  int incorrectAnswers = 0;
 
   void _updateAnswerCount(bool isCorrect) {
-    setState(() {
-      if (isCorrect) {
-        correctAnswers++;
-      } else {
-        incorrectAnswers++;
-      }
-    });
+    if (isCorrect) {
+      correctAnswers++;
+    } else {
+      incorrectAnswers++;
+    }
   }
-
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -263,7 +259,6 @@ class _QuestionListState extends State<QuestionList> {
           QuestionCard(
             question: questions[currentQuestion - 1],
             onAnswerSelected: _updateAnswerCount,
-            showHint: widget.isPractice,  // Show or hide hint based on mode
           ),
           SizedBox(height: 16),
           Row(
@@ -289,13 +284,11 @@ class _QuestionListState extends State<QuestionList> {
   }
 }
 
-
 class QuestionCard extends StatefulWidget {
   final Question question;
-  final Function(bool) onAnswerSelected;  // Function to be called on answer
-  final bool showHint;
+  final Function(bool) onAnswerSelected;
 
-  QuestionCard({required this.question, required this.onAnswerSelected, this.showHint = true});
+  QuestionCard({required this.question, required this.onAnswerSelected});
 
   @override
   _QuestionCardState createState() => _QuestionCardState();
@@ -312,8 +305,9 @@ class _QuestionCardState extends State<QuestionCard> {
 
   void _submitAnswer() {
     bool isCorrect = selectedOption == widget.question.correctAnswer;
-    widget.onAnswerSelected(isCorrect); // Call the function passed from parent
+    widget.onAnswerSelected(isCorrect);
 
+    // You can navigate to next question or show a message here
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(isCorrect ? "Correct!" : "Wrong answer"),
     ));
@@ -338,7 +332,7 @@ class _QuestionCardState extends State<QuestionCard> {
               selectedOption: selectedOption,
               onSelection: _updateSelectedOption,
             )).toList(),
-            widget.showHint ? SizedBox(height: 20) : Container(),  // Modify this line
+            SizedBox(height: 20),
             ElevatedButton(
               onPressed: _submitAnswer,
               child: Text("Submit Answer"),
