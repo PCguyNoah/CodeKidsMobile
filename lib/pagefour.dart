@@ -225,7 +225,7 @@ class Question {
   final String module;
   final int position;
   final String hint;
-
+  String userAnswer = '';
   Question({
     required this.questionText,
     required this.correctAnswer,
@@ -308,6 +308,13 @@ class _QuestionListState extends State<QuestionList> {
   int correctAnswers = 0;
   int incorrectAnswers = 0;
 
+  void resetTest() {
+    setState(() {
+      currentQuestion = 1; // Reset to the first question
+      // Optionally re-fetch questions if you want to shuffle them again
+      _fetchQuestions();
+    });
+  }
   void _updateAnswerCount(bool isCorrect) {
     if (isCorrect) {
       correctAnswers++;
@@ -315,7 +322,37 @@ class _QuestionListState extends State<QuestionList> {
       incorrectAnswers++;
     }
   }
+  void _calculateResults() {
+    int correctCount = 0;
+    int incorrectCount = 0;
 
+    for (var question in questions) {
+      if (question.userAnswer == question.correctAnswer) {
+        correctCount++;
+      } else {
+        incorrectCount++;
+      }
+    }
+
+    // Show results in a dialog or another widget
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Test Results'),
+          content: Text('Correct Answers: $correctCount\nIncorrect Answers: $incorrectCount'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -331,7 +368,8 @@ class _QuestionListState extends State<QuestionList> {
             question: questions[currentQuestion - 1],
             onAnswerSelected: _updateAnswerCount,
             isPractice: widget.isPractice,
-            isLastQuestion: currentQuestion == questions.length,  // Add this line
+            isLastQuestion: currentQuestion == questions.length,
+            questions: questions,  // Pass the list of questions here
           ),
           SizedBox(height: 16),
           Row(
@@ -362,12 +400,13 @@ class QuestionCard extends StatefulWidget {
   final Function(bool) onAnswerSelected;
   final bool isPractice;
   final bool isLastQuestion;  // Add this line
-
+  final List<Question> questions;
   QuestionCard({
     required this.question,
     required this.onAnswerSelected,
     required this.isPractice,
-    this.isLastQuestion = false,  // Add this line
+    this.isLastQuestion = false,
+    required this.questions, // Add this line
   });
 
   @override
@@ -377,20 +416,71 @@ class QuestionCard extends StatefulWidget {
 class _QuestionCardState extends State<QuestionCard> {
   String? selectedOption;
 
+
   void _updateSelectedOption(String option) {
     setState(() {
-      selectedOption = option;
+      widget.question.userAnswer = option; // Update user answer in the question object
     });
   }
 
   void _submitAnswer() {
-    bool isCorrect = selectedOption == widget.question.correctAnswer;
+    bool isCorrect = widget.question.userAnswer == widget.question.correctAnswer;
     widget.onAnswerSelected(isCorrect);
 
-    // You can navigate to the next question or show a message here
+    // Show a message after submission
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(isCorrect ? "Correct!" : "Wrong answer"),
     ));
+
+    if (!widget.isPractice && widget.isLastQuestion) {
+      _calculateResults(); // Call this method when the last question is submitted
+    }
+  }
+
+
+  void _calculateResults() {
+    int correctCount = 0;
+    int incorrectCount = 0;
+
+    for (var question in widget.questions) {
+      if (question.userAnswer == question.correctAnswer) {
+        correctCount++;
+      } else {
+        incorrectCount++;
+      }
+    }
+
+    // Show results in a dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Test Results'),
+          content: Text('Correct Answers: $correctCount\nIncorrect Answers: $incorrectCount'),
+          actions: <Widget>[
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                _restartTest(); // Call to restart the test
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  void _restartTest() {
+    // Reset user answers
+    for (var question in widget.questions) {
+      question.userAnswer = '';
+    }
+
+    // Reset current question index
+    if (context.findAncestorStateOfType<_QuestionListState>() != null) {
+      context.findAncestorStateOfType<_QuestionListState>()!.resetTest();
+    }
   }
 
   void _showHint() {
@@ -413,7 +503,6 @@ class _QuestionCardState extends State<QuestionCard> {
         },
       );
     }
-    // No action is taken for test sessions
   }
 
   @override
@@ -432,17 +521,17 @@ class _QuestionCardState extends State<QuestionCard> {
             SizedBox(height: 8),
             ...widget.question.options.map((option) => AnswerOption(
               option: option,
-              selectedOption: selectedOption,
+              selectedOption: widget.question.userAnswer, // Use userAnswer from the question object
               onSelection: _updateSelectedOption,
             )).toList(),
             SizedBox(height: 20),
-            if (!widget.isPractice && widget.isLastQuestion)
-              ElevatedButton(  // Remove the curly braces around this widget
+            if (widget.isPractice || (!widget.isPractice && widget.isLastQuestion))
+              ElevatedButton(
                 onPressed: _submitAnswer,
                 child: Text("Submit Answer"),
               ),
             SizedBox(height: 8),
-            if (widget.isPractice)  // Conditionally show the "Hint" button for practice sessions
+            if (widget.isPractice)
               ElevatedButton(
                 onPressed: _showHint,
                 child: Text("Hint"),
@@ -481,5 +570,6 @@ class AnswerOption extends StatelessWidget {
     );
   }
 }
+
 
 
