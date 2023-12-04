@@ -1,214 +1,28 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import 'dart:convert';
+import 'dart:math';
 
-class ModuleOnePage extends StatefulWidget {
-  const ModuleOnePage({Key? key}) : super(key: key);
+class TestAll extends StatefulWidget {
+  const TestAll({Key? key}) : super(key: key);
 
   @override
-  State<ModuleOnePage> createState() => _ModuleOnePageState();
+  State<TestAll> createState() => _TestAllState();
 }
 
-class _ModuleOnePageState extends State<ModuleOnePage> {
+class _TestAllState extends State<TestAll> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('CodeKids'),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: (){
-            Navigator.of(context).pop();
-          },
-          icon: const Icon(Icons.arrow_back_ios),
-        ),
-      ),
-    body:SingleChildScrollView(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-
-          children: <Widget>[
-            SizedBox(height: 30),
-          Text('printf("Variables and Data Types");',
-          style: TextStyle(fontSize: 35), textAlign: TextAlign.center,),
-            SizedBox(height: 46),
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size(350, 70),
-            ),
-            onPressed: (){
-              Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (BuildContext context){
-                        return const ModuleOneLearn();
-                      })
-              );
-            },
-            child: Text('Learn',
-              style: TextStyle(fontSize: 20.0),)),
-            SizedBox(height: 20),
-            SizedBox(height: 20),
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size(350, 70),
-            ),
-            onPressed: (){
-              Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (BuildContext context){
-                        return const ModuleOnePractice();
-                      })
-              );
-            },
-            child: Text('Practice',
-              style: TextStyle(fontSize: 20.0),)),
-            SizedBox(height: 20),
-            SizedBox(height: 20),
-        ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size(350, 70),
-            ),
-            onPressed: (){
-              Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (BuildContext context){
-                        return const ModuleOneTest();
-                      })
-              );
-            },
-            child: Text('Test',
-              style: TextStyle(fontSize: 20.0),)),
-        ]
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ModuleOneLearn extends StatefulWidget {
-  const ModuleOneLearn({Key? key}) : super(key: key);
-
-  @override
-  State<ModuleOneLearn> createState() => _ModuleOneLearnState();
-}
-
-class _ModuleOneLearnState extends State<ModuleOneLearn> {
-
-  late YoutubePlayerController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = YoutubePlayerController(
-      initialVideoId: 'OSyjOvFbAGI',
-      flags: const YoutubePlayerFlags(
-        autoPlay: true,
-        mute: false,
-      ),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Module 1: Learn'),
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: const Icon(Icons.arrow_back_ios),
-        ),
-      ),
-      body: Center(
-        child: YoutubePlayerBuilder(
-          player: YoutubePlayer(
-            controller: _controller,
-            onReady: () {
-              SystemChrome.setPreferredOrientations([
-                DeviceOrientation.landscapeLeft,
-                DeviceOrientation.landscapeRight,
-              ]);
-            },
-            onEnded: (data) {
-              SystemChrome.setPreferredOrientations([
-                DeviceOrientation.portraitUp,
-              ]);
-            },
-          ),
-          builder: (context, player) {
-            return Align(
-              alignment: Alignment.center,
-              child: Container(
-                child: player,
-              ),
-            );
-          },
-        ),
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
-    _controller.dispose();
-    super.dispose();
-  }
-}
-
-class ModuleOnePractice extends StatefulWidget {
-  const ModuleOnePractice({Key? key}) : super(key: key);
-
-  @override
-  State<ModuleOnePractice> createState() => _ModuleOnePracticeState();
-}
-
-class _ModuleOnePracticeState extends State<ModuleOnePractice> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Module 1: Practice'),
+        title: const Text('Test All Modules'),
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
-      body: QuestionList(moduleName: '1', isPractice: true), // Fetch questions for module 1
-    );
-  }
-}
-
-class ModuleOneTest extends StatefulWidget {
-  const ModuleOneTest({Key? key}) : super(key: key);
-
-  @override
-  State<ModuleOneTest> createState() => _ModuleOneTestState();
-}
-
-class _ModuleOneTestState extends State<ModuleOneTest> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Module 1: Test'),
-        automaticallyImplyLeading: false,
-        leading: IconButton(
-          onPressed: () => Navigator.of(context).pop(),
-          icon: const Icon(Icons.arrow_back_ios),
-        ),
-      ),
-      body: QuestionList(moduleName: '1', isPractice: false), // Fetch questions for module 1
+      body: QuestionList(moduleName: '1', isPractice: false), //Dummy Code
     );
   }
 }
@@ -221,6 +35,7 @@ class Question {
   final int position;
   final String hint;
   String userAnswer = '';
+
   Question({
     required this.questionText,
     required this.correctAnswer,
@@ -271,33 +86,40 @@ class _QuestionListState extends State<QuestionList> {
   }
 
   _fetchQuestions() async {
-    final String apiUrl = 'https://codekidz-5a5dbee745fa.herokuapp.com/api/question/get/module/${widget.moduleName}';
-
     try {
-      final response = await http.get(Uri.parse(apiUrl));
+      final int limit = 25;
+      List<Question> fetchedQuestions = [];
+      Set<String> uniqueCombinations = Set();
 
-      if (response.statusCode == 200) {
-        var jsonResponse = json.decode(response.body) as List;
-        List<Question> fetchedQuestions = jsonResponse.map((q) => Question.fromJson(q)).toList();
+      while (fetchedQuestions.length < limit) {
+        final int randomModuleID = Random().nextInt(5) + 1;
+        final int randomPosition = Random().nextInt(10) + 1;
+        final String combination = '$randomModuleID/$randomPosition';
 
-        if (!widget.isPractice) { // Only shuffle for tests, not for practice
-          fetchedQuestions.shuffle();
-          print("Questions shuffled"); // Debugging line
+        if (!uniqueCombinations.contains(combination)) {
+          final response = await http.get(
+            Uri.parse('https://codekidz-5a5dbee745fa.herokuapp.com/api/question/get/$combination'),
+          );
+
+          if (response.statusCode == 200) {
+            var jsonResponse = json.decode(response.body) as Map<String, dynamic>;
+            fetchedQuestions.add(Question.fromJson(jsonResponse));
+            uniqueCombinations.add(combination);
+          } else {
+            throw Exception('Failed to load questions. Status code: ${response.statusCode}');
+          }
         }
-
-        setState(() {
-          questions = fetchedQuestions;
-          isLoading = false;
-        });
-      } else {
-        // Handle error
-        print('Failed to load questions. Status code: ${response.statusCode}');
       }
+
+      setState(() {
+        questions = fetchedQuestions;
+        isLoading = false;
+      });
     } catch (e) {
-      // Handle exception
       print('Error fetching questions: $e');
     }
   }
+
 
 
   int correctAnswers = 0;
@@ -305,11 +127,11 @@ class _QuestionListState extends State<QuestionList> {
 
   void resetTest() {
     setState(() {
-      currentQuestion = 1; // Reset to the first question
-      // Optionally re-fetch questions if you want to shuffle them again
+      currentQuestion = 1;
       _fetchQuestions();
     });
   }
+
   void _updateAnswerCount(bool isCorrect) {
     if (isCorrect) {
       correctAnswers++;
@@ -317,6 +139,7 @@ class _QuestionListState extends State<QuestionList> {
       incorrectAnswers++;
     }
   }
+
   void _calculateResults() {
     int correctCount = 0;
     int incorrectCount = 0;
@@ -329,7 +152,6 @@ class _QuestionListState extends State<QuestionList> {
       }
     }
 
-    // Show results in a dialog or another widget
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -348,6 +170,7 @@ class _QuestionListState extends State<QuestionList> {
       },
     );
   }
+
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -364,7 +187,7 @@ class _QuestionListState extends State<QuestionList> {
             onAnswerSelected: _updateAnswerCount,
             isPractice: widget.isPractice,
             isLastQuestion: currentQuestion == questions.length,
-            questions: questions,  // Pass the list of questions here
+            questions: questions,
           ),
           SizedBox(height: 16),
           Row(
@@ -394,14 +217,15 @@ class QuestionCard extends StatefulWidget {
   final Question question;
   final Function(bool) onAnswerSelected;
   final bool isPractice;
-  final bool isLastQuestion;  // Add this line
+  final bool isLastQuestion;
   final List<Question> questions;
+
   QuestionCard({
     required this.question,
     required this.onAnswerSelected,
     required this.isPractice,
     this.isLastQuestion = false,
-    required this.questions, // Add this line
+    required this.questions,
   });
 
   @override
@@ -411,10 +235,9 @@ class QuestionCard extends StatefulWidget {
 class _QuestionCardState extends State<QuestionCard> {
   String? selectedOption;
 
-
   void _updateSelectedOption(String option) {
     setState(() {
-      widget.question.userAnswer = option; // Update user answer in the question object
+      widget.question.userAnswer = option;
     });
   }
 
@@ -422,16 +245,14 @@ class _QuestionCardState extends State<QuestionCard> {
     bool isCorrect = widget.question.userAnswer == widget.question.correctAnswer;
     widget.onAnswerSelected(isCorrect);
 
-    // Show a message after submission
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content: Text(isCorrect ? "Correct!" : "Wrong answer"),
     ));
 
     if (!widget.isPractice && widget.isLastQuestion) {
-      _calculateResults(); // Call this method when the last question is submitted
+      _calculateResults();
     }
   }
-
 
   void _calculateResults() {
     int correctCount = 0;
@@ -445,7 +266,6 @@ class _QuestionCardState extends State<QuestionCard> {
       }
     }
 
-    // Show results in a dialog
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -456,7 +276,7 @@ class _QuestionCardState extends State<QuestionCard> {
             TextButton(
               onPressed: () {
                 Navigator.of(context).pop();
-                _restartTest(); // Call to restart the test
+                _restartTest();
               },
               child: Text('Close'),
             ),
@@ -467,12 +287,10 @@ class _QuestionCardState extends State<QuestionCard> {
   }
 
   void _restartTest() {
-    // Reset user answers
     for (var question in widget.questions) {
       question.userAnswer = '';
     }
 
-    // Reset current question index
     if (context.findAncestorStateOfType<_QuestionListState>() != null) {
       context.findAncestorStateOfType<_QuestionListState>()!.resetTest();
     }
@@ -516,7 +334,7 @@ class _QuestionCardState extends State<QuestionCard> {
             SizedBox(height: 8),
             ...widget.question.options.map((option) => AnswerOption(
               option: option,
-              selectedOption: widget.question.userAnswer, // Use userAnswer from the question object
+              selectedOption: widget.question.userAnswer,
               onSelection: _updateSelectedOption,
             )).toList(),
             SizedBox(height: 20),
@@ -537,7 +355,6 @@ class _QuestionCardState extends State<QuestionCard> {
     );
   }
 }
-
 
 class AnswerOption extends StatelessWidget {
   final String option;
@@ -565,5 +382,3 @@ class AnswerOption extends StatelessWidget {
     );
   }
 }
-
-
