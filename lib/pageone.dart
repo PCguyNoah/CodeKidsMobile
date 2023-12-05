@@ -16,7 +16,7 @@ class _ModuleOnePageState extends State<ModuleOnePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('CodeKids'),
+        title: const Text('CodeKnights'),
         centerTitle: true,
         automaticallyImplyLeading: false,
         leading: IconButton(
@@ -33,13 +33,11 @@ class _ModuleOnePageState extends State<ModuleOnePage> {
 
           children: <Widget>[
             SizedBox(height: 30),
-          Text('printf("Variables and Data Types");',
+          Text('printf("Variables & Data Types");',
           style: TextStyle(fontSize: 35), textAlign: TextAlign.center,),
             SizedBox(height: 46),
         ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size(350, 70),
-            ),
+            style: customElevatedButtonStyle(),
             onPressed: (){
               Navigator.of(context).push(
                   MaterialPageRoute(
@@ -53,9 +51,8 @@ class _ModuleOnePageState extends State<ModuleOnePage> {
             SizedBox(height: 20),
             SizedBox(height: 20),
         ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size(350, 70),
-            ),
+            style: customElevatedButtonStyle(),
+
             onPressed: (){
               Navigator.of(context).push(
                   MaterialPageRoute(
@@ -69,9 +66,8 @@ class _ModuleOnePageState extends State<ModuleOnePage> {
             SizedBox(height: 20),
             SizedBox(height: 20),
         ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: Size(350, 70),
-            ),
+            style: customElevatedButtonStyle(),
+
             onPressed: (){
               Navigator.of(context).push(
                   MaterialPageRoute(
@@ -117,7 +113,7 @@ class _ModuleOneLearnState extends State<ModuleOneLearn> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Module 1: Learn'),
+        title: const Text('Variables & Data Types: Learn'),
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
@@ -177,7 +173,7 @@ class _ModuleOnePracticeState extends State<ModuleOnePractice> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Module 1: Practice'),
+        title: const Text('Variables & Data Types: Practice'),
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
@@ -201,7 +197,7 @@ class _ModuleOneTestState extends State<ModuleOneTest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Module 1: Test'),
+        title: const Text('Variables & Data Types: Test'),
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
@@ -371,12 +367,26 @@ class _QuestionListState extends State<QuestionList> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(50, 50),
+                  shadowColor: Colors.black, // Default shadow color
+                  elevation: 10, // Default elevation
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+
                 onPressed: currentQuestion > 1
                     ? () => setState(() => currentQuestion--)
                     : null,
                 child: Text('Previous'),
               ),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(70, 50),
+                  shadowColor: Colors.black, // Default shadow color
+                  elevation: 10, // Default elevation
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                ),
+
                 onPressed: currentQuestion < questions.length
                     ? () => setState(() => currentQuestion++)
                     : null,
@@ -528,6 +538,8 @@ class _QuestionCardState extends State<QuestionCard> {
             SizedBox(height: 8),
             if (widget.isPractice)
               ElevatedButton(
+
+
                 onPressed: _showHint,
                 child: Text("Hint"),
               ),
@@ -567,3 +579,36 @@ class AnswerOption extends StatelessWidget {
 }
 
 
+ButtonStyle customElevatedButtonStyle() {
+  return ElevatedButton.styleFrom(
+    minimumSize: Size(350, 70),
+    shadowColor: Colors.black, // Default shadow color
+    elevation: 10, // Default elevation
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+  ).copyWith(
+    backgroundColor: MaterialStateProperty.resolveWith<Color>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.hovered)) {
+          return Colors.deepPurple.shade700; // Glow color when hovered
+        }
+        return Colors.deepPurple; // Default color
+      },
+    ),
+    elevation: MaterialStateProperty.resolveWith<double>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.hovered)) {
+          return 15; // Increased elevation for the glow effect
+        }
+        return 10; // Default elevation
+      },
+    ),
+    shadowColor: MaterialStateProperty.resolveWith<Color>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.hovered)) {
+          return Colors.purple.shade300; // Lighter shadow color for the glow effect
+        }
+        return Colors.black; // Default shadow color
+      },
+    ),
+  );
+}

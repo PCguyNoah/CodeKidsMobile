@@ -16,7 +16,7 @@ class _ModuleFourPageState extends State<ModuleFourPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('CodeKids'),
+        title: const Text('CodeKnights'),
         centerTitle: true,
         automaticallyImplyLeading: false,
         leading: IconButton(
@@ -39,9 +39,7 @@ class _ModuleFourPageState extends State<ModuleFourPage> {
 
                 SizedBox(height: 20),
                 ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(350, 70),
-                    ),
+                    style: customElevatedButtonStyle(),
                     onPressed: (){
                       Navigator.of(context).push(
                           MaterialPageRoute(
@@ -56,9 +54,7 @@ class _ModuleFourPageState extends State<ModuleFourPage> {
 
                 SizedBox(height: 20),
                 ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(350, 70),
-                    ),
+                    style: customElevatedButtonStyle(),
                     onPressed: (){
                       Navigator.of(context).push(
                           MaterialPageRoute(
@@ -73,9 +69,7 @@ class _ModuleFourPageState extends State<ModuleFourPage> {
 
                 SizedBox(height: 20),
                 ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      minimumSize: Size(350, 70),
-                    ),
+                    style: customElevatedButtonStyle(),
                     onPressed: (){
                       Navigator.of(context).push(
                           MaterialPageRoute(
@@ -120,7 +114,7 @@ class _ModuleFourLearnState extends State<ModuleFourLearn> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Module 4: Learn'),
+        title: const Text('Functions & Procedures: Learn'),
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
@@ -181,7 +175,7 @@ class _ModuleFourPracticeState extends State<ModuleFourPractice> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Module 2: Practice'),
+        title: const Text('Functions & Procedures: Practice'),
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
@@ -206,7 +200,7 @@ class _ModuleFourTestState extends State<ModuleFourTest> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Module 2: Test'),
+        title: const Text('Functions & Procedures: Test'),
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
@@ -573,3 +567,36 @@ class AnswerOption extends StatelessWidget {
 
 
 
+ButtonStyle customElevatedButtonStyle() {
+  return ElevatedButton.styleFrom(
+    minimumSize: Size(350, 70),
+    shadowColor: Colors.black, // Default shadow color
+    elevation: 10, // Default elevation
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+  ).copyWith(
+    backgroundColor: MaterialStateProperty.resolveWith<Color>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.hovered)) {
+          return Colors.deepPurple.shade700; // Glow color when hovered
+        }
+        return Colors.deepPurple; // Default color
+      },
+    ),
+    elevation: MaterialStateProperty.resolveWith<double>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.hovered)) {
+          return 15; // Increased elevation for the glow effect
+        }
+        return 10; // Default elevation
+      },
+    ),
+    shadowColor: MaterialStateProperty.resolveWith<Color>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.hovered)) {
+          return Colors.purple.shade300; // Lighter shadow color for the glow effect
+        }
+        return Colors.black; // Default shadow color
+      },
+    ),
+  );
+}

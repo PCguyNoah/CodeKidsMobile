@@ -19,14 +19,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+
       title: 'Flutter Demo',
+
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple ),
       ),
 
-      home: const MyHomePage(title: 'CodeKids'),
+
+      home: const MyHomePage(title: 'CodeKnights'),
 
     );
+
   }
 }
 
@@ -174,11 +178,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 24),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(300, 50),
+                shadowColor: Colors.black, // Default shadow color
+                elevation: 10, // Default elevation
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
               onPressed: _login,
               child: Text('Access Your Account'),
             ),
+            const SizedBox(height: 16),
             Text(
               "Don't have an account?",
               style: TextStyle(
@@ -299,7 +310,8 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Register'),
+        title: Text('CodeKnights'),
+        centerTitle: true,
       ),
       body: Center(
         child: Column(
@@ -423,15 +435,23 @@ class _RegisterState extends State<Register> {
             ),
             const SizedBox(height: 16),
             ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(300, 50),
+                shadowColor: Colors.black, // Default shadow color
+                elevation: 10, // Default elevation
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
               onPressed: _register,
               child: Text('Create Account'),
             ),
+            const SizedBox(height:15),
             Text(
               "Already have an account?",
               style: TextStyle(
                 color: Colors.black,
               ),
             ),
+
             GestureDetector(
               onTap: _transitionLogin,
               child: Text(
@@ -467,7 +487,7 @@ class DashBoard extends StatelessWidget {
       resizeToAvoidBottomInset: true,
       appBar: AppBar(
         centerTitle: true,
-        title: Text('CodeKids'),
+        title: Text('CodeKnights'),
       ),
       body: SingleChildScrollView(
         child: Center(
@@ -476,20 +496,15 @@ class DashBoard extends StatelessWidget {
             children: <Widget>[
               SizedBox(height: 20),
               Text(
-                'printf("Welcome");',
+                'printf("Modules");',
                 style: TextStyle(fontSize: 33),
                 textAlign: TextAlign.center,
               ),
               SizedBox(height: 16),
-              Text(
-                'Module 1:',
-                style: TextStyle(fontSize: 25),
-              ),
-              SizedBox(height: 3),
+
+
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(350, 70),
-                ),
+                style: customElevatedButtonStyle(),
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -499,20 +514,15 @@ class DashBoard extends StatelessWidget {
                   );
                 },
                 child: Text(
-                  'Variables and Data Types',
+                  'Variables & Data Types',
                   style: TextStyle(fontSize: 25.0),
                 ),
               ),
               SizedBox(height: 16), // Add spacing
-              Text(
-                'Module 2:',
-                style: TextStyle(fontSize: 25),
-              ),
+
               SizedBox(height: 3),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(350, 70),
-                ),
+                style: customElevatedButtonStyle(),
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -527,15 +537,10 @@ class DashBoard extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 16), // Add spacing
-              Text(
-                'Module 3:',
-                style: TextStyle(fontSize: 25),
-              ),
+
               SizedBox(height: 3),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(350, 70),
-                ),
+                style: customElevatedButtonStyle(),
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -550,15 +555,10 @@ class DashBoard extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 16), // Add spacing
-              Text(
-                'Module 4:',
-                style: TextStyle(fontSize: 25),
-              ),
+
               SizedBox(height: 3),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(350, 70),
-                ),
+                style: customElevatedButtonStyle(),
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -573,15 +573,10 @@ class DashBoard extends StatelessWidget {
                 ),
               ),
               SizedBox(height: 16), // Add spacing
-              Text(
-                'Module 5:',
-                style: TextStyle(fontSize: 25),
-              ),
+
               SizedBox(height: 3),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(350, 70),
-                ),
+                style: customElevatedButtonStyle(),
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -595,11 +590,15 @@ class DashBoard extends StatelessWidget {
                   style: TextStyle(fontSize: 25.0),
                 ),
               ),
-              SizedBox(height: 3),
+
+              Text(
+                '______________________________',
+                style: TextStyle(fontSize: 25.0),
+              ),
+              SizedBox(height: 5),
+
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(350, 70),
-                ),
+                style: customElevatedButtonStyle(),
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -613,11 +612,10 @@ class DashBoard extends StatelessWidget {
                   style: TextStyle(fontSize: 25.0),
                 ),
               ),
-              SizedBox(height: 3),
+
+              SizedBox(height: 16),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(350, 70),
-                ),
+                  style: customElevatedButtonStyle(),
                 onPressed: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
@@ -626,11 +624,15 @@ class DashBoard extends StatelessWidget {
                         }),
                   );
                 },
+
                 child: Text(
                   'Test all',
+
                   style: TextStyle(fontSize: 25.0),
+
                 ),
-              ),
+              ),              SizedBox(height: 16),
+
             ],
           ),
         ),
@@ -644,3 +646,36 @@ class DashBoard extends StatelessWidget {
 
 
 
+ButtonStyle customElevatedButtonStyle() {
+  return ElevatedButton.styleFrom(
+    minimumSize: Size(350, 70),
+    shadowColor: Colors.black, // Default shadow color
+    elevation: 10, // Default elevation
+    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+  ).copyWith(
+    backgroundColor: MaterialStateProperty.resolveWith<Color>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.hovered)) {
+          return Colors.deepPurple.shade700; // Glow color when hovered
+        }
+        return Colors.deepPurple; // Default color
+      },
+    ),
+    elevation: MaterialStateProperty.resolveWith<double>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.hovered)) {
+          return 15; // Increased elevation for the glow effect
+        }
+        return 10; // Default elevation
+      },
+    ),
+    shadowColor: MaterialStateProperty.resolveWith<Color>(
+          (Set<MaterialState> states) {
+        if (states.contains(MaterialState.hovered)) {
+          return Colors.purple.shade300; // Lighter shadow color for the glow effect
+        }
+        return Colors.black; // Default shadow color
+      },
+    ),
+  );
+}
