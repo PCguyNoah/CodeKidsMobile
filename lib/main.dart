@@ -19,18 +19,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-
-      title: 'Flutter Demo',
-
+      title: 'CodeKnights', // Updated app name
+      debugShowCheckedModeBanner: false, // Removes the debug banner
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple ),
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.deepPurple),
       ),
-
-
       home: const MyHomePage(title: 'CodeKnights'),
-
     );
-
   }
 }
 
