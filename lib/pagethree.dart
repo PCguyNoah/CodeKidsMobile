@@ -105,7 +105,7 @@ class _ModuleThreeLearnState extends State<ModuleThreeLearn> {
     _controller = YoutubePlayerController(
       initialVideoId: videoIds.first,
       flags: const YoutubePlayerFlags(
-        autoPlay: true,
+        autoPlay: false,
         mute: false,
       ),
     );
@@ -136,7 +136,7 @@ class _ModuleThreeLearnState extends State<ModuleThreeLearn> {
                     controller: YoutubePlayerController(
                       initialVideoId: videoId,
                       flags: const YoutubePlayerFlags(
-                        autoPlay: true,
+                        autoPlay: false,
                         mute: false,
                       ),
                     ),
