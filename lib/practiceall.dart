@@ -202,12 +202,6 @@ class _QuestionListState extends State<QuestionList> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 ElevatedButton(
-                  onPressed: currentQuestion > 1
-                      ? () => setState(() => currentQuestion--)
-                      : null,
-                  child: Text('Previous'),
-                ),
-                ElevatedButton(
                   onPressed: _fetchNextQuestion, // Fetch the next question
                   child: Text('Next'),
                 ),
