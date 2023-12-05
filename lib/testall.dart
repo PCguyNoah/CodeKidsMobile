@@ -245,14 +245,11 @@ class _QuestionCardState extends State<QuestionCard> {
     bool isCorrect = widget.question.userAnswer == widget.question.correctAnswer;
     widget.onAnswerSelected(isCorrect);
 
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(isCorrect ? "Correct!" : "Wrong answer"),
-    ));
-
     if (!widget.isPractice && widget.isLastQuestion) {
-      _calculateResults();
+      _calculateResults(); // Call this method when the last question is submitted
     }
   }
+
 
   void _calculateResults() {
     int correctCount = 0;
@@ -341,7 +338,7 @@ class _QuestionCardState extends State<QuestionCard> {
             if (widget.isPractice || (!widget.isPractice && widget.isLastQuestion))
               ElevatedButton(
                 onPressed: _submitAnswer,
-                child: Text("Submit Answer"),
+                child: Text("Submit Test"),
               ),
             SizedBox(height: 8),
             if (widget.isPractice)
