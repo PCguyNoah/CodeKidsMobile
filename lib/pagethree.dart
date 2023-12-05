@@ -102,8 +102,8 @@ class ModuleThreeLearn extends StatefulWidget{
 class _ModuleThreeLearnState extends State<ModuleThreeLearn> {
   late YoutubePlayerController _controller;
   List<String> videoIds = [
-    'https://youtu.be/xyQrVEFz9kw?si=UZPlcN1HnUWUZwYd',
-    ' https://youtu.be/tjd8fQw5HTA?si=G6jEaNLMnzVc1vz3',
+    'xyQrVEFz9kw',
+    'tjd8fQw5HTA',
   ];
   @override
   void initState() {

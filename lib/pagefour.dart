@@ -108,7 +108,7 @@ class _ModuleFourLearnState extends State<ModuleFourLearn> {
   void initState() {
     super.initState();
     _controller = YoutubePlayerController(
-      initialVideoId: 'https://www.youtube.com/watch?v=OSyjOvFbAGI', //Dummy Temporary Vid
+      initialVideoId: 'OSyjOvFbAGI', //Dummy Temporary Vid
       flags: const YoutubePlayerFlags(
         autoPlay: true,
         mute: false,

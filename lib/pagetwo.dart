@@ -98,8 +98,8 @@ class ModuleTwoLearn extends StatefulWidget{
 class _ModuleTwoLearnState extends State<ModuleTwoLearn> {
   late YoutubePlayerController _controller;
   List<String> videoIds = [
-    'https://youtu.be/b4DPj0XAfSg?si=TX91gfahxIXupDr1',
-    'https://youtu.be/ufFAFx5Qn3w?si=qDLcK3O87QWYxzYk',
+    'b4DPj0XAfSg',
+    'ufFAFx5Qn3w',
   ];
 
   @override
@@ -108,7 +108,7 @@ class _ModuleTwoLearnState extends State<ModuleTwoLearn> {
     _controller = YoutubePlayerController(
       initialVideoId: videoIds.first,
       flags: const YoutubePlayerFlags(
-        autoPlay: true,
+        autoPlay: false,
         mute: false,
       ),
     );

@@ -3,6 +3,8 @@ import 'package:codekids_m/pagefour.dart';
 import 'package:codekids_m/pageone.dart';
 import 'package:codekids_m/pagethree.dart';
 import 'package:codekids_m/pagetwo.dart';
+import 'package:codekids_m/practiceall.dart';
+import 'package:codekids_m/testall.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -590,6 +592,42 @@ class DashBoard extends StatelessWidget {
                 },
                 child: Text(
                   'Input & Output',
+                  style: TextStyle(fontSize: 25.0),
+                ),
+              ),
+              SizedBox(height: 3),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(350, 70),
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return const PracticeAll();
+                        }),
+                  );
+                },
+                child: Text(
+                  'Practice all',
+                  style: TextStyle(fontSize: 25.0),
+                ),
+              ),
+              SizedBox(height: 3),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  minimumSize: Size(350, 70),
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return const TestAll();
+                        }),
+                  );
+                },
+                child: Text(
+                  'Test all',
                   style: TextStyle(fontSize: 25.0),
                 ),
               ),
