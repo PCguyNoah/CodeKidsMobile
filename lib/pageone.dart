@@ -20,65 +20,77 @@ class _ModuleOnePageState extends State<ModuleOnePage> {
         centerTitle: true,
         automaticallyImplyLeading: false,
         leading: IconButton(
-          onPressed: (){
+          onPressed: () {
             Navigator.of(context).pop();
           },
           icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
-    body:SingleChildScrollView(
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-
-          children: <Widget>[
-            SizedBox(height: 30),
-          Text('printf("Variables & Data Types");',
-          style: TextStyle(fontSize: 35), textAlign: TextAlign.center,),
-            SizedBox(height: 46),
-        ElevatedButton(
-            style: customElevatedButtonStyle(),
-            onPressed: (){
-              Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (BuildContext context){
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              SizedBox(height: 30),
+              Text(
+                'printf("Variables & Data Types");',
+                style: TextStyle(fontSize: 35),
+                textAlign: TextAlign.center,
+              ),
+              SizedBox(height: 46),
+              ElevatedButton(
+                style: customElevatedButtonStyle(),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
                         return const ModuleOneLearn();
-                      })
-              );
-            },
-            child: Text('Learn',
-              style: TextStyle(fontSize: 20.0),)),
-            SizedBox(height: 20),
-            SizedBox(height: 20),
-        ElevatedButton(
-            style: customElevatedButtonStyle(),
-
-            onPressed: (){
-              Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (BuildContext context){
+                      },
+                    ),
+                  );
+                },
+                child: Text(
+                  'Learn',
+                  style: TextStyle(fontSize: 20.0),
+                ),
+              ),
+              SizedBox(height: 20),
+              SizedBox(height: 20),
+              ElevatedButton(
+                style: customElevatedButtonStyle(),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
                         return const ModuleOnePractice();
-                      })
-              );
-            },
-            child: Text('Practice',
-              style: TextStyle(fontSize: 20.0),)),
-            SizedBox(height: 20),
-            SizedBox(height: 20),
-        ElevatedButton(
-            style: customElevatedButtonStyle(),
-
-            onPressed: (){
-              Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (BuildContext context){
+                      },
+                    ),
+                  );
+                },
+                child: Text(
+                  'Practice',
+                  style: TextStyle(fontSize: 20.0),
+                ),
+              ),
+              SizedBox(height: 20),
+              SizedBox(height: 20),
+              ElevatedButton(
+                style: customElevatedButtonStyle(),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (BuildContext context) {
                         return const ModuleOneTest();
-                      })
-              );
-            },
-            child: Text('Test',
-              style: TextStyle(fontSize: 20.0),)),
-        ]
+                      },
+                    ),
+                  );
+                },
+                child: Text(
+                  'Test',
+                  style: TextStyle(fontSize: 20.0),
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -94,7 +106,6 @@ class ModuleOneLearn extends StatefulWidget {
 }
 
 class _ModuleOneLearnState extends State<ModuleOneLearn> {
-
   late YoutubePlayerController _controller;
 
   @override
@@ -103,7 +114,7 @@ class _ModuleOneLearnState extends State<ModuleOneLearn> {
     _controller = YoutubePlayerController(
       initialVideoId: 'OSyjOvFbAGI',
       flags: const YoutubePlayerFlags(
-        autoPlay: true,
+        autoPlay: false, // Disable autoplay
         mute: false,
       ),
     );
@@ -112,7 +123,9 @@ class _ModuleOneLearnState extends State<ModuleOneLearn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: _controller.value.isFullScreen
+          ? null // Hide the app bar in fullscreen mode
+          : AppBar(
         title: const Text('Variables & Data Types: Learn'),
         automaticallyImplyLeading: false,
         leading: IconButton(
@@ -126,22 +139,24 @@ class _ModuleOneLearnState extends State<ModuleOneLearn> {
         child: YoutubePlayerBuilder(
           player: YoutubePlayer(
             controller: _controller,
+            aspectRatio: 16 / 9, // Set the aspect ratio as needed
             onReady: () {
-              SystemChrome.setPreferredOrientations([
-                DeviceOrientation.landscapeLeft,
-                DeviceOrientation.landscapeRight,
-              ]);
-            },
-            onEnded: (data) {
-              SystemChrome.setPreferredOrientations([
-                DeviceOrientation.portraitUp,
-              ]);
+              _controller.addListener(() {
+                if (_controller.value.isFullScreen) {
+                  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive, overlays: []);
+                } else {
+                  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive, overlays: SystemUiOverlay.values);
+                }
+                setState(() {}); // Trigger a rebuild to update the app bar visibility
+              });
             },
           ),
           builder: (context, player) {
-            return Align(
-              alignment: Alignment.center,
-              child: Container(
+            return Container(
+              height: _controller.value.isFullScreen ? double.infinity : 200.0, // Adjust height for fullscreen
+              padding: EdgeInsets.all(_controller.value.isFullScreen ? 0.0 : 8.0), // Adjust padding for fullscreen
+              child: Align(
+                alignment: _controller.value.isFullScreen ? Alignment.topCenter : Alignment.center,
                 child: player,
               ),
             );
@@ -153,13 +168,12 @@ class _ModuleOneLearnState extends State<ModuleOneLearn> {
 
   @override
   void dispose() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive, overlays: SystemUiOverlay.values);
     _controller.dispose();
     super.dispose();
   }
 }
+
 
 class ModuleOnePractice extends StatefulWidget {
   const ModuleOnePractice({Key? key}) : super(key: key);

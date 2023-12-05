@@ -106,7 +106,7 @@ class _ModuleFiveLearnState extends State<ModuleFiveLearn> {
     _controller = YoutubePlayerController(
       initialVideoId: 'xOIVXR35aI4?',
       flags: const YoutubePlayerFlags(
-        autoPlay: true,
+        autoPlay: false,
         mute: false,
       ),
     );
@@ -115,7 +115,9 @@ class _ModuleFiveLearnState extends State<ModuleFiveLearn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: _controller.value.isFullScreen
+          ? null // Hide the app bar in fullscreen mode
+          : AppBar(
         title: const Text('Input & Output: Learn'),
         automaticallyImplyLeading: false,
         leading: IconButton(
@@ -129,22 +131,24 @@ class _ModuleFiveLearnState extends State<ModuleFiveLearn> {
         child: YoutubePlayerBuilder(
           player: YoutubePlayer(
             controller: _controller,
+            aspectRatio: 16 / 9, // Set the aspect ratio as needed
             onReady: () {
-              SystemChrome.setPreferredOrientations([
-                DeviceOrientation.landscapeLeft,
-                DeviceOrientation.landscapeRight,
-              ]);
-            },
-            onEnded: (data) {
-              SystemChrome.setPreferredOrientations([
-                DeviceOrientation.portraitUp,
-              ]);
+              _controller.addListener(() {
+                if (_controller.value.isFullScreen) {
+                  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive, overlays: []);
+                } else {
+                  SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive, overlays: SystemUiOverlay.values);
+                }
+                setState(() {}); // Trigger a rebuild to update the app bar visibility
+              });
             },
           ),
           builder: (context, player) {
-            return Align(
-              alignment: Alignment.center,
-              child: Container(
+            return Container(
+              height: _controller.value.isFullScreen ? double.infinity : 200.0, // Adjust height for fullscreen
+              padding: EdgeInsets.all(_controller.value.isFullScreen ? 0.0 : 8.0), // Adjust padding for fullscreen
+              child: Align(
+                alignment: _controller.value.isFullScreen ? Alignment.topCenter : Alignment.center,
                 child: player,
               ),
             );
@@ -156,9 +160,7 @@ class _ModuleFiveLearnState extends State<ModuleFiveLearn> {
 
   @override
   void dispose() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive, overlays: SystemUiOverlay.values);
     _controller.dispose();
     super.dispose();
   }

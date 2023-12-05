@@ -97,14 +97,18 @@ class ModuleFourLearn extends StatefulWidget{
 
 class _ModuleFourLearnState extends State<ModuleFourLearn> {
   late YoutubePlayerController _controller;
-
+  List<String> videoIds = [
+    'vc9A6HdrTz4',
+    '7VM571tSKC0',
+    'ou_G7_zodR4',
+  ];
   @override
   void initState() {
     super.initState();
     _controller = YoutubePlayerController(
-      initialVideoId: 'OSyjOvFbAGI', //Dummy Temporary Vid
+      initialVideoId: videoIds.first,
       flags: const YoutubePlayerFlags(
-        autoPlay: true,
+        autoPlay: false,
         mute: false,
       ),
     );
@@ -113,7 +117,9 @@ class _ModuleFourLearnState extends State<ModuleFourLearn> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: _controller.value.isFullScreen
+          ? null // Hide the app bar in fullscreen mode
+          : AppBar(
         title: const Text('Functions & Procedures: Learn'),
         automaticallyImplyLeading: false,
         leading: IconButton(
@@ -123,30 +129,33 @@ class _ModuleFourLearnState extends State<ModuleFourLearn> {
           icon: const Icon(Icons.arrow_back_ios),
         ),
       ),
-      body: Center(
-        child: YoutubePlayerBuilder(
-          player: YoutubePlayer(
-            controller: _controller,
-            onReady: () {
-              SystemChrome.setPreferredOrientations([
-                DeviceOrientation.landscapeLeft,
-                DeviceOrientation.landscapeRight,
-              ]);
-            },
-            onEnded: (data) {
-              SystemChrome.setPreferredOrientations([
-                DeviceOrientation.portraitUp,
-              ]);
-            },
-          ),
-          builder: (context, player) {
-            return Align(
-              alignment: Alignment.center,
-              child: Container(
-                child: player,
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: videoIds.map((videoId) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0), // Add spacing between videos
+              child: Stack(
+                children: [
+                  YoutubePlayer(
+                    controller: YoutubePlayerController(
+                      initialVideoId: videoId,
+                      flags: const YoutubePlayerFlags(
+                        autoPlay: false,
+                        mute: false,
+                      ),
+                    ),
+                    aspectRatio: 16 / 9, // Set the aspect ratio as needed
+                  ),
+                  Positioned.fill(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                ],
               ),
             );
-          },
+          }).toList(),
         ),
       ),
     );
@@ -154,9 +163,7 @@ class _ModuleFourLearnState extends State<ModuleFourLearn> {
 
   @override
   void dispose() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-    ]);
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive, overlays: SystemUiOverlay.values);
     _controller.dispose();
     super.dispose();
   }
